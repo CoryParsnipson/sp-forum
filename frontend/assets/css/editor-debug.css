@@ -1,0 +1,26 @@
+div.editor-window p.debug {
+   position: relative;
+
+   border-top: 1px solid grey;
+   border-left: 1px solid grey;
+   border-right: 1px solid grey;
+}
+
+div.editor-window p.debug::before {
+   content: 'p';
+   font-size: 8pt;
+
+   color: white;
+   background-color: grey;
+
+   display: block;
+   position: absolute;
+   top: 0;
+   right: 0;
+
+   padding: 0 3px 3px 3px;
+}
+
+div.editor-window p.debug:last-of-type {
+   border-bottom: 1px solid grey;
+}

@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+
+div#editor-area {
+   font-family: 'Source Sans Pro', sans-serif;
+}
+
+div.editor-window {
+   width: 600px;
+   border: 2px dashed black;
+   border-radius: 5px;
+   padding: 5px;
+}
+
+div.editor-window:focus {
+   outline: 0;
+}
+
+div.editor-window p {
+   min-height: 1em;
+   font-size: 32px;
+
+   word-break: break-word;
+
+   margin: 0;
+   padding: 0;
+}
+
+/* this is to make empty lines the same height as non empty lines */
+div.editor-window p:after {
+   content: '\200B';
+   min-height: 1em;
+}
+
+div.editor-cursor {
+   width: 0;
+   height: 0;
+   font-size: 32px;
+   position: relative;
+   border-left: 0.07em solid black;
+   padding-bottom: 1.25em;
+   margin-bottom: -1.28em;
+}
+
+.editor-hidden {
+   visibility: hidden;
+}

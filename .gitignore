@@ -1,13 +1,30 @@
+# project specific
+*.keyring
+webpack_bundles/
+
 # virtualenv
 venv
 
 # python
-*.pyc
-*.pyo
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.swp
 
 # Django
-*.keyring
 db.sqlite3
+
+# webpack
+webpack-stats.json
 
 # Logs
 logs
