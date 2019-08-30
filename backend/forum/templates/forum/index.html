@@ -9,9 +9,20 @@
    </head>
 
    <body>
-      <div id="editor-area">
-         TODO: implement non-javascript version
-      </div>
+      <section class="main-content">
+         <div id="editor-area">
+            TODO: implement non-javascript version
+         </div>
+
+         <table class="posts">
+            {% for post in posts %}
+               <tr>
+                  <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
+                  <td class="post-content">{{ post.content }}</td>
+               </tr>
+            {% endfor %}
+         </table>
+      </section>
 
       <script>
          window.django = {};

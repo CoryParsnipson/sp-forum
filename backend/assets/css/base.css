@@ -5,6 +5,34 @@
 
 html, body {
    width: 100%;
-   display: flex;
-   justify-content: center;
+}
+
+section.main-content {
+   width: 600px;
+   margin: 0 auto;
+}
+
+table.posts {
+   font-size: 16pt;
+   border-collapse: collapse;
+   border-spacing: 0;
+   margin: 2em 0;
+}
+
+table.posts th {
+   vertical-align: top;
+}
+
+table.posts th, table.posts td {
+   border-bottom: 1px solid grey;
+   padding: 5px;
+}
+
+table.posts tr:last-of-type th, table.posts tr:last-of-type td {
+   border: 0;
+}
+
+table.posts .post-meta {
+   width: 200px;
+   background: #D4D4D4;
 }

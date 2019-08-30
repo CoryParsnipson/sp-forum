@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     'webpack_loader',
     'rest_framework',
-    'forum',
+    'forum.apps.ForumConfig',
 ]
 
 MIDDLEWARE = [
