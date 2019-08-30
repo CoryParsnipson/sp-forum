@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'webpack_loader',
+    'rest_framework',
     'forum',
 ]
 
@@ -102,6 +103,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'forum.User'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -138,4 +141,15 @@ WEBPACK_LOADER = {
         'TIMEOUT': None,
         'IGNORE': [r'.+\.hot-update.js', r'.+\.map']
     }
+}
+
+
+# Django Rest Framework config
+
+REST_FRAMEWORK = {
+    # Use Django's standard 'django.contrib.auth' permissions,
+    # or allow read-only access for authenticated users
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
