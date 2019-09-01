@@ -9,7 +9,6 @@ Experiments in online communication
 
 * Set up Django models
 * Enable anonymous post creation from react component
-* Create display of existing posts in chronological order
 
 ## Research and references
 

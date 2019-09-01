@@ -8,7 +8,8 @@ class User(AbstractUser):
 
 
 class Post(models.Model):
-    """ Forum posts.
+    """
+    Forum posts.
     """
 
     MAX_CHAR_LENGTH=50000
