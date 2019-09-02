@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+
 * {
    margin: 0;
    padding: 0;
@@ -14,7 +16,8 @@ section.main-content {
 
 p.content {
    min-height: 1em;
-   font-size: 32px;
+   font-size: 16pt;
+   font-family: 'Source Sans Pro', sans-serif;
 
    word-break: break-word;
 
