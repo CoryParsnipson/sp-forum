@@ -121,6 +121,10 @@ export class Window extends React.Component {
          return;
       }
 
+      if (event.keyCode === 32) {
+         event.preventDefault();
+      }
+
       if (alphanum.indexOf(event.key.toLowerCase()) !== -1) {
          const curr_paragraph = this.state.contents[paragraph_idx];
 
