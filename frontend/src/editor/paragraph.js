@@ -30,7 +30,8 @@ export class Paragraph extends React.Component {
       return (
          <p
             ref={c => (this.p_node = c)}
-            className = {this.props.className}
+            // content is the paragraph class defined in base.css
+            className={"content" + (this.props.className ? (" " + this.props.className) : "")}
             onClick={this._onClick}
          >
             {this.props.contents}
