@@ -3,6 +3,13 @@ Experiments in online communication
 
 ## TODO
 
+* Change editor so that it has the same styling as an existing post
+* Create thread and forum Django models along with associated views.
+* Beef up user authentication
+   * Make it possible for users to "reclaim" posts? (automatically through finding old posts in user storage and manually through trip codes?)
+
+* Support for static files (images, videos, etc) - use WhiteNoise?
+
 * Implement text selection (deletion, overwriting, click+drag)
 * Implement copy and paste
 * Save drafts to local storage (or cookie or database)?
