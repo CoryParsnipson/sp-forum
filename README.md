@@ -7,9 +7,6 @@ Experiments in online communication
 * Implement copy and paste
 * Save drafts to local storage (or cookie or database)?
 
-* Set up Django models
-* Enable anonymous post creation from react component
-
 ## Research and references
 
 * [Set up React in your Django Project with webpack](https://medium.com/uva-mobile-devhub/set-up-react-in-your-django-project-with-webpack-4fe1f8455396)

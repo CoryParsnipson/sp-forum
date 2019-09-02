@@ -18,7 +18,7 @@ export class StatusBar extends React.Component {
          >
             <input type="hidden" name="csrfmiddlewaretoken" value={utils.getCookie('csrftoken')} />
 
-            <input type="hidden" name="post_contents" value="" />
+            <input type="hidden" name="content" value="" />
             <button type="submit" value="POST">POST</button>
          </form>
       );

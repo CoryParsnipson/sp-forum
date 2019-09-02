@@ -10,7 +10,6 @@ api_router.register(r'posts', views.PostViewSet)
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('post', views.post_detail, name='post'),
 
     path('auth/', include('rest_framework.urls')),
     path('api/', include(api_router.urls))

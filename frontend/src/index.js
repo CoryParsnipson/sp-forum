@@ -14,7 +14,7 @@ window.props.editor_on_submit = function(event) {
    // load up status bar input value with innerHTML of editor window
    var post_contents = document.getElementById("editor-area").getElementsByClassName("editor-window-contents")[0];
 
-   var form_post_holder = document.forms.editor1_form.children.post_contents;
+   var form_post_holder = document.forms.editor1_form.children.content;
    form_post_holder.value = encodeURIComponent(post_contents.innerHTML);
 
    // get response from url endpoint
@@ -26,14 +26,25 @@ window.props.editor_on_submit = function(event) {
          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
          "X-CSRFToken": utils.getCookie('csrftoken')
       },
-      body: 'post_contents=' + form_post_holder.value
+      body: 'content=' + form_post_holder.value
    })
-      .then(function(response) {
-         response.json().then(function(data) {
-            console.log(data);
-            window.alert(data.contents);
-         });
+   .then(function(response) {
+      response.json().then(function(data) {
+         var post_list = document.getElementsByClassName("posts")[0];
+         var new_post = post_list.insertRow(0);
+
+         var post_info = document.createElement('th');
+         var post_content = new_post.insertCell(0);
+
+         post_content.insertAdjacentElement("beforebegin", post_info);
+
+         post_info.classList.add("post-meta");
+         post_content.classList.add("post-content");
+
+         post_info.innerHTML = data.author ? data.author.username : "Anonymous";
+         post_content.innerHTML = data.content;
       });
+   });
 };
 
 ReactDOM.render(

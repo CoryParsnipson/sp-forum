@@ -15,18 +15,20 @@
          </div>
 
          <table class="posts">
-            {% for post in posts %}
-               <tr>
-                  <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
-                  <td class="post-content">{{ post.content }}</td>
-               </tr>
-            {% endfor %}
+            <tbody>
+               {% for post in posts %}
+                  <tr>
+                     <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
+                     <td class="post-content">{{ post.content|safe }}</td>
+                  </tr>
+               {% endfor %}
+            </tbody>
          </table>
       </section>
 
       <script>
          window.django = {};
-         window.django.editor_action = "{% url 'post' %}";
+         window.django.editor_action = "{% url 'post-list' %}";
       </script>
       {% render_bundle 'main' %}
    </body>
