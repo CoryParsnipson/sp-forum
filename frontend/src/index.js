@@ -36,7 +36,8 @@ window.props.editor_on_submit = function(event) {
    .then(function(response) {
       response.json().then(function(data) {
          var post_list = document.getElementsByClassName("posts")[0];
-         var new_post = post_list.insertRow(0);
+         var num_rows = post_list.getElementsByTagName("tr").length;
+         var new_post = post_list.insertRow(num_rows - 1);
 
          var post_info = document.createElement('th');
          var post_content = new_post.insertCell(0);
@@ -48,7 +49,12 @@ window.props.editor_on_submit = function(event) {
 
          post_info.innerHTML = data.author ? data.author.username : "Anonymous";
          post_content.innerHTML = data.content;
-      });
+      })
+   })
+   .then(function(response) {
+      // after successful post, clear editor contents
+      var editor_window = document.getElementById("editor-area").getElementsByClassName("editor-window-contents")[0];
+      editor_window.innerHTML = '<p class="content"></p>';
    });
 };
 
