@@ -15,6 +15,7 @@ export class Editor extends React.Component {
             <StatusBar
                editor_id={this.props.editor_id}
                action={this.props.action}
+               post_meta={this.props.post_meta}
                on_submit={this.props.on_submit}
             />
          </React.Fragment>

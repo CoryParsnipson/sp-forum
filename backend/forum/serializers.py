@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Post
+from .models import User, Forum, Thread, Post
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -9,7 +9,15 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'username', 'email', 'groups']
 
 
+class ForumSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Forum
+        fields = ['url', 'title', 'description']
+
+
 class PostSerializer(serializers.HyperlinkedModelSerializer):
+    thread = serializers.SlugRelatedField(queryset=Thread.objects.all(), slug_field='id')
+
     class Meta:
         model = Post
-        fields = ['url', 'author', 'content', 'published']
+        fields = ['url', 'author', 'content', 'published', 'thread']

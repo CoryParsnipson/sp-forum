@@ -1,0 +1,53 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+
+<html lang="en">
+   <head>
+      <title>SP Forum :: {{ thread.title }}</title>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+   </head>
+
+   <body>
+      <header>
+         <h1>{{ thread.title }}</h1>
+         <h3>OP: {{ thread.author }}</h3>
+      </header>
+
+      <article>
+         <section class="main-content">
+            <table class="posts">
+               <tbody>
+                  {% for post in posts %}
+                     <tr>
+                        <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
+                        <td class="post-content">{{ post.content|safe }}</td>
+                     </tr>
+                  {% empty %}
+                     <tr><td>There are no posts in this thread...</td></tr>
+                  {% endfor %}
+
+                  <tr>
+                     <!-- TODO: replace this with new post meta information -->
+                     <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
+                     <td class="post-content">
+                        <div id="editor-area">
+                           TODO: implement non-javascript version
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+
+         </section>
+      </article>
+
+      <script>
+         window.django = {};
+         window.django.thread_id = "{{ thread.id }}";
+         window.django.editor_action = "{% url 'post-list' %}";
+      </script>
+      {% render_bundle 'main' %}
+
+   </body>
+</html>

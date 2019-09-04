@@ -5,7 +5,8 @@ div#editor-area {
 }
 
 div.editor-window {
-   width: 600px;
+   width: 100%;
+   box-sizing: border-box;
    border: 2px dashed black;
    border-radius: 5px;
    padding: 5px;

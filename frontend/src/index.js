@@ -8,6 +8,9 @@ import { Editor } from './editor/editor.js';
 window.props = {};
 window.props.editor_id = "editor1";
 window.props.editor_action = window.django.editor_action;
+window.props.post_meta = {
+   'thread': window.django.thread_id
+};
 window.props.editor_on_submit = function(event) {
    event.preventDefault();
 
@@ -16,6 +19,8 @@ window.props.editor_on_submit = function(event) {
 
    var form_post_holder = document.forms.editor1_form.children.content;
    form_post_holder.value = encodeURIComponent(post_contents.innerHTML);
+
+   var thread_id = encodeURIComponent(document.forms.editor1_form.children.thread.value);
 
    // get response from url endpoint
    fetch(window.props.editor_action, {
@@ -26,7 +31,7 @@ window.props.editor_on_submit = function(event) {
          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
          "X-CSRFToken": utils.getCookie('csrftoken')
       },
-      body: 'content=' + form_post_holder.value
+      body: 'content=' + form_post_holder.value + "&thread=" + thread_id
    })
    .then(function(response) {
       response.json().then(function(data) {
@@ -51,6 +56,7 @@ ReactDOM.render(
    <Editor
       editor_id={window.props.editor_id}
       action={window.props.editor_action}
+      post_meta={window.props.post_meta}
       on_submit={window.props.editor_on_submit}
    />,
    document.getElementById('editor-area')

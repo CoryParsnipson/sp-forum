@@ -4,29 +4,27 @@
 
 <html lang="en">
    <head>
-      <title>SP Forum</title>
+      <title>SP Forum :: {{ forum.title }}</title>
       <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
    </head>
 
    <body>
       <header>
-         <h1>SP Forums</h1>
+         <h1>{{ forum.title }}</h1>
+         <h3>{{ forum.description }}</h3>
       </header>
 
       <article>
          <table>
             <tbody>
-               {% for forum in forums %}
-                  <tr>
-                     <th><a href="{% url 'forum-detail' id=forum.id %}">{{ forum.title }}</a></th>
-                     <td>{{ forum.description }}</td>
-                  </tr>
+               {% for thread in threads %}
+               <tr>
+                  <th><a href="{% url 'thread-detail' id=thread.id %}">{{ thread.title }}</a></th>
+                  <td>{{ thread.author.username }}</td>
+               </tr>
                {% endfor %}
             </tbody>
          </table>
       </article>
-
-      <section class="main-content">
-      </section>
    </body>
 </html>
