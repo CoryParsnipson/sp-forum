@@ -253,7 +253,7 @@ export class Window extends React.Component {
    cursor_update() {
       const content_offset = this.state.cursor.pos[0];
       const char_offset = this.state.cursor.pos[1];
-      
+
       const win_rect = this.editor_win.current.getBoundingClientRect();
 
       const win_padding_left = parseFloat(
@@ -276,7 +276,7 @@ export class Window extends React.Component {
          var orig_content = this.state.contents[content_offset].text;
 
          var new_content = orig_content.slice(0, char_offset)
-            + '<span id="offset_check">' + '' + '</span>'
+            + '<span id="offset_check">_</span>'
             // getBoundingClientRect() returns [0, 0] if the last char is ' ' for some reason
             // so replace it with a visible character...
             + (orig_content.slice(char_offset) ? orig_content.slice(char_offset) : '_');
