@@ -12,7 +12,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class ForumSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Forum
-        fields = ['url', 'title', 'description']
+        fields = ['url', 'title', 'slug', 'description']
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):

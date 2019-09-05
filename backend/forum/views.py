@@ -7,7 +7,7 @@ from .serializers import UserSerializer, ForumSerializer, PostSerializer
 
 
 ###############################################################################
-# forum index
+# forum index                                                                 #
 ###############################################################################
 def index(request):
     """
@@ -21,12 +21,26 @@ def index(request):
 ###############################################################################
 # forum detail                                                                #
 ###############################################################################
-def forum_detail(request, id):
+def forum_detail_by_id(request, id):
     """
     View the contents of a specific forum.
     """
     forum = get_object_or_404(Forum, pk=id) 
+    return _forum_detail(request, forum)
 
+
+def forum_detail_by_slug(request, forum_slug):
+    """
+    View the contents of a specific forum (accessed by slug value)
+    """
+    forum = get_object_or_404(Forum, slug=forum_slug)
+    return _forum_detail(request, forum)
+
+
+def _forum_detail(request, forum):
+    """
+    View the contents of a specific forum (implementation)
+    """
     context = {}
     context['forum'] = forum
     context['threads'] = Thread.objects.filter(forum=forum)
@@ -36,12 +50,26 @@ def forum_detail(request, id):
 ###############################################################################
 # thread detail                                                               #
 ###############################################################################
-def thread_detail(request, id):
+def thread_detail_by_id(request, id):
     """
     View the contents of a specific thread.
     """
     thread = get_object_or_404(Thread, pk=id)
+    return _thread_detail(request, thread)
+    
 
+def thread_detail_by_slug(request, forum_slug, thread_slug):
+    """
+    View the contents of a specific thread. (accessed by slug value)
+    """
+    thread = get_object_or_404(Thread, slug=thread_slug)
+    return _thread_detail(request, thread)
+
+
+def _thread_detail(request, thread):
+    """
+    View the contents of a specific thread.
+    """
     context = {}
     context['thread'] = thread
     context['posts'] = Post.objects.filter(thread=thread)

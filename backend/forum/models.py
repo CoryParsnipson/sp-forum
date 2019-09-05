@@ -2,6 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 
+import forum.lib as lib
 
 class User(AbstractUser):
     pass
@@ -13,7 +14,13 @@ class Forum(models.Model):
     """
 
     title = models.CharField(max_length=150, blank=False, null=False)
+    slug = models.SlugField(max_length=60, unique=True, editable=False)
     description = models.CharField(max_length=500, default="Generic forum description")
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            lib.unique_slugify(self, self.title)
+        super(Forum, self).save(*args, **kwargs)
 
     def __str__(self):
         return "(" + self.title + ") \"" + self.description + "\""
@@ -25,10 +32,16 @@ class Thread(models.Model):
     """
 
     title = models.CharField(max_length=500, blank=False, null=False)
+    slug = models.SlugField(max_length=60, unique=True, editable=False)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
     # TODO: what should behavior be when deleting a forum?
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE, blank=False, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            lib.unique_slugify(self, self.title)
+        super(Thread, self).save(*args, **kwargs)
 
     def __str__(self):
         return "(" + self.title + ") [" \

@@ -18,10 +18,12 @@
          <table>
             <tbody>
                {% for thread in threads %}
-               <tr>
-                  <th><a href="{% url 'thread-detail' id=thread.id %}">{{ thread.title }}</a></th>
-                  <td>{{ thread.author.username }}</td>
-               </tr>
+                  <tr>
+                     <th><a href="{% url 'thread-detail-by-slug' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></th>
+                     <td>{{ thread.author.username }}</td>
+                  </tr>
+               {% empty %}
+                  <tr><td>There are no threads...</td></tr>
                {% endfor %}
             </tbody>
          </table>

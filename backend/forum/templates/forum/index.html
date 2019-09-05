@@ -18,9 +18,11 @@
             <tbody>
                {% for forum in forums %}
                   <tr>
-                     <th><a href="{% url 'forum-detail' id=forum.id %}">{{ forum.title }}</a></th>
+                     <th><a href="{% url 'forum-detail-by-slug' forum_slug=forum.slug %}">{{ forum.title }}</a></th>
                      <td>{{ forum.description }}</td>
                   </tr>
+               {% empty %}
+                  <tr><td>There are no forums...</td></tr>
                {% endfor %}
             </tbody>
          </table>
