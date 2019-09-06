@@ -58,11 +58,14 @@ export class Window extends React.Component {
    }
 
    clear() {
+      var state = this.state;
+
       // remove all contents
-      for (const [index, tag] of this.state.contents.entries()) {
-         this.remove_paragraph(index);
+      for (var i = state.contents.length - 1; i >= 0; --i) {
+         state = this.remove_paragraph(state, i);
       }
-      this.add_paragraph();
+      state = this.add_paragraph(state);
+      this.setState(state);
 
       // reset the cursor
       this.cursor_set_pos(0, 0);
