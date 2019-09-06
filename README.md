@@ -3,8 +3,12 @@ Experiments in online communication
 
 ## TODO
 
+* Make the forum and thread list views usable.
+* Implement breadcrumb navigation
+* Implement reset function in editor react component (that clears editor window of content and resets state)
+
 * Change editor so that it has the same styling as an existing post
-* Create thread and forum Django models along with associated views.
+
 * Beef up user authentication
    * Make it possible for users to "reclaim" posts? (automatically through finding old posts in user storage and manually through trip codes?)
 

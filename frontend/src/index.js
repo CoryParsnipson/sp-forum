@@ -52,9 +52,15 @@ window.props.editor_on_submit = function(event) {
       })
    })
    .then(function(response) {
+      // remove selection ranges
+      document.getSelection().removeAllRanges();
+
       // after successful post, clear editor contents
       var editor_window = document.getElementById("editor-area").getElementsByClassName("editor-window-contents")[0];
       editor_window.innerHTML = '<p class="content"></p>';
+
+      // TODO: this causes javascript error if user tries to type in editor after this.
+      // need to create a reset function in the react component.
    });
 };
 

@@ -23,7 +23,7 @@ div.editor-cursor {
    position: relative;
    border-left: 0.07em solid black;
    padding-bottom: 1.25em;
-   margin-bottom: -1.28em;
+   margin-bottom: -1.25em;
 }
 
 .editor-hidden {

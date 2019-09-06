@@ -40,6 +40,8 @@ export class Window extends React.Component {
       this.editor_win = React.createRef();
       this.cursor = React.createRef();
 
+      this.clear = this.clear.bind(this);
+
       this.add_paragraph = this.add_paragraph.bind(this);
       this.remove_paragraph = this.remove_paragraph.bind(this);
 
@@ -51,6 +53,17 @@ export class Window extends React.Component {
       this._onFocus = this._onFocus.bind(this);
       this._onKeyUp = this._onKeyUp.bind(this);
       this._onKeyDown = this._onKeyDown.bind(this);
+   }
+
+   clear() {
+      // remove all contents
+      for (const [index, tag] of this.state.contents.entries()) {
+         this.remove_paragraph(index);
+      }
+      this.add_paragraph();
+
+      // reset the cursor
+      this.cursor_set_pos(0, 0);
    }
 
    componentDidMount() {
@@ -264,10 +277,18 @@ export class Window extends React.Component {
          window.getComputedStyle(this.editor_win.current, null).getPropertyValue('padding-top')
       );
 
+      const win_border_left = parseFloat(
+         window.getComputedStyle(this.editor_win.current, null).getPropertyValue('border-left')
+      );
+
+      const win_border_top = parseFloat(
+         window.getComputedStyle(this.editor_win.current, null).getPropertyValue('border-top')
+      );
+
       // top left pixel coord of the editor window
       const origin = {
-         x: win_rect.x + win_padding_left,
-         y: win_rect.y + win_padding_top
+         x: win_rect.x + win_padding_left + win_border_left,
+         y: win_rect.y + win_padding_top + win_border_top
       };
 
       var coord = this.state.cursor.coord;
@@ -285,9 +306,7 @@ export class Window extends React.Component {
          var offset = document.getElementById('offset_check').getBoundingClientRect();
          this.p_refs[content_offset].current.p_node.innerHTML = orig_content;
 
-         // need to find width of cursor (and subtract offset)
-         const cursor_rect = this.cursor.current.element.getBoundingClientRect();
-         coord[0] = offset.x - origin.x - cursor_rect.width;
+         coord[0] = offset.x - origin.x;
          coord[1] = offset.y - origin.y;
       }
 
