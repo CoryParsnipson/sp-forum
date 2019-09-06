@@ -31,7 +31,7 @@ export class Window extends React.Component {
       this.state.inputs.escape = false;
 
       // initialize with one empty paragraph
-      this.state.contents.push(this.create_paragraph());
+      this.state.contents.push(this.create_paragraph(this.state));
       ++this.state.next_content_id;
 
       this.p_refs = {};
@@ -42,17 +42,19 @@ export class Window extends React.Component {
 
       this.clear = this.clear.bind(this);
 
-      this.add_paragraph = this.add_paragraph.bind(this);
-      this.remove_paragraph = this.remove_paragraph.bind(this);
-
-      this.cursor_show = this.cursor_show.bind(this);
-      this.cursor_hide = this.cursor_hide.bind(this);
-      this.cursor_set_pos = this.cursor_set_pos.bind(this);
-
       this._onBlur = this._onBlur.bind(this);
       this._onFocus = this._onFocus.bind(this);
       this._onKeyUp = this._onKeyUp.bind(this);
       this._onKeyDown = this._onKeyDown.bind(this);
+
+      this.cursor_show = this.cursor_show.bind(this);
+      this.cursor_hide = this.cursor_hide.bind(this);
+      this.cursor_set_pos = this.cursor_set_pos.bind(this);
+      this.cursor_update = this.cursor_update.bind(this);
+
+      this.add_paragraph = this.add_paragraph.bind(this);
+      this.create_paragraph = this.create_paragraph.bind(this);
+      this.remove_paragraph = this.remove_paragraph.bind(this);
    }
 
    clear() {
@@ -110,27 +112,30 @@ export class Window extends React.Component {
 
    _onKeyDown(event) {
       const alphanum = ' abcdefghijklmnopqrstuvwxyz0123456789,.?!~`@#$%^&*()\'"-_=+|';
-      const new_cursor = this.state.cursor;
-      const paragraph_idx = new_cursor.pos[0];
+      const paragraph_idx = this.state.cursor.pos[0];
+
+      var new_state = this.state;
 
       // track escape key for chording
-      if (event.keyCode === 27 && !this.state.inputs.escape) {
-         const inputs = this.state.inputs;
+      if (event.keyCode === 27 && !new_state.inputs.escape) {
+         const inputs = new_state.inputs;
          inputs.escape = true;
 
-         this.setState({ inputs: inputs });
+         new_state.inputs = inputs;
       }
 
       // ESC+D is pressed
       // TODO: probably want to add a button and a more intuitive keyboard shortcut here instead
-      if (event.keyCode === 68 && this.state.inputs.escape) {
-         const cursor = this.state.cursor;
-         cursor.needs_update = true;
+      if (event.keyCode === 68 && new_state.inputs.escape) {
+         new_state.cursor.needs_update = true;
+         this.setState(new_state);
+         return;
+      }
 
-         this.setState({
-            debug: !this.state.debug,
-            cursor: cursor
-         });
+      // ESC+R is pressed
+      // TODO: probably want to add a button and a more intuitive keyboard shortcut here instead
+      if (event.keyCode === 82 && new_state.inputs.escape) {
+         this.clear();
          return;
       }
 
@@ -139,65 +144,63 @@ export class Window extends React.Component {
       }
 
       if (alphanum.indexOf(event.key.toLowerCase()) !== -1) {
-         const curr_paragraph = this.state.contents[paragraph_idx];
+         const curr_paragraph = new_state.contents[paragraph_idx];
 
          const new_char = (
-            (curr_paragraph.text[new_cursor.pos[1] - 1] === ' '
-            || curr_paragraph.text[new_cursor.pos[1] - 1] === '\u00A0')
+            (curr_paragraph.text[new_state.cursor.pos[1] - 1] === ' '
+            || curr_paragraph.text[new_state.cursor.pos[1] - 1] === '\u00A0')
             && event.keyCode == 32 ?
             '\u00A0' : event.key
          );
 
-         const new_contents = this.state.contents;
-         new_contents[paragraph_idx].text =
-            new_contents[paragraph_idx].text.slice(0, new_cursor.pos[1]) +
+         new_state.contents[paragraph_idx].text =
+            new_state.contents[paragraph_idx].text.slice(0, new_state.cursor.pos[1]) +
             new_char +
-            new_contents[paragraph_idx].text.slice(new_cursor.pos[1]);
+            new_state.contents[paragraph_idx].text.slice(new_state.cursor.pos[1]);
 
-         this.setState({ contents: new_contents });
-
-         ++new_cursor.pos[1]
+         ++new_state.cursor.pos[1];
       }
 
       if (event.key === 'Enter') {
          // get the portion of the paragraph that's after the cursor
-         const new_p = this.state.contents[new_cursor.pos[0]].text.slice(new_cursor.pos[1]);
+         const new_p = new_state.contents[new_state.cursor.pos[0]].text.slice(new_state.cursor.pos[1]);
+         const cursor = new_state.cursor;
 
-         const new_contents = this.state.contents;
-         new_contents[new_cursor.pos[0]].text = new_contents[new_cursor.pos[0]].text.slice(0, new_cursor.pos[1]);
-         this.setState({ contents: new_contents });
+         // truncate original paragraph (if any)
+         new_state.contents[cursor.pos[0]].text = new_state.contents[cursor.pos[0]].text.slice(0, cursor.pos[1]);
 
-         this.add_paragraph(new_p, paragraph_idx + 1);
+         // add new paragraph
+         new_state = this.add_paragraph(new_state, new_p, paragraph_idx + 1);
 
-         new_cursor.pos[0] = new_cursor.pos[0] + 1;
-         new_cursor.pos[1] = 0;
+         // update cursor position
+         new_state.cursor.pos[0] = new_state.cursor.pos[0] + 1;
+         new_state.cursor.pos[1] = 0;
       }
 
       // backspace
       if (event.keyCode == 8) {
-         if (new_cursor.pos[1] > 0) {
-            const new_contents = this.state.contents;
-            new_contents[paragraph_idx].text =
-               new_contents[paragraph_idx].text.slice(0, Math.max(0, new_cursor.pos[1] - 1)) +
-               new_contents[paragraph_idx].text.slice(new_cursor.pos[1]);
+         if (new_state.cursor.pos[1] > 0) {
+            new_state.contents[paragraph_idx].text =
+               new_state.contents[paragraph_idx].text.slice(0, Math.max(0, new_state.cursor.pos[1] - 1)) +
+               new_state.contents[paragraph_idx].text.slice(new_state.cursor.pos[1]);
 
-            --new_cursor.pos[1];
-         } else if (new_cursor.pos[0] > 0 && new_cursor.pos[1] === 0) {
+            --new_state.cursor.pos[1];
+         } else if (new_state.cursor.pos[0] > 0 && new_state.cursor.pos[1] === 0) {
             // handle going back to previous paragraph
-            this.remove_paragraph(paragraph_idx);
+            new_state = this.remove_paragraph(new_state, paragraph_idx);
    
-            --new_cursor.pos[0];
-            new_cursor.pos[1] = this.state.contents[paragraph_idx - 1].text.length;
+            --new_state.cursor.pos[0];
+            new_state.cursor.pos[1] = new_state.contents[paragraph_idx - 1].text.length;
          }
       }
 
       // left arrow key
       if (event.keyCode == 37) {
-         if (new_cursor.pos[1] > 0) {
-            --new_cursor.pos[1];
-         } else if (new_cursor.pos[0] > 0) {
-            --new_cursor.pos[0];
-            new_cursor.pos[1] = this.state.contents[new_cursor.pos[0]].text.length;
+         if (new_state.cursor.pos[1] > 0) {
+            --new_state.cursor.pos[1];
+         } else if (new_state.cursor.pos[0] > 0) {
+            --new_state.cursor.pos[0];
+            new_state.cursor.pos[1] = new_state.contents[new_state.cursor.pos[0]].text.length;
          }
       }
 
@@ -205,22 +208,22 @@ export class Window extends React.Component {
       if (event.keyCode == 38) {
          // TODO: this needs more modifications to behave properly (needs to go up by pixels and then round to nearest char)
          // Also think about cases where paragraphs are more than 1 line long
-         if (new_cursor.pos[0] > 0) {
-            --new_cursor.pos[0];
-            new_cursor.pos[1] = Math.min(
-               new_cursor.pos[1],
-               this.state.contents[new_cursor.pos[0]].text.length
+         if (new_state.cursor.pos[0] > 0) {
+            --new_state.cursor.pos[0];
+            new_state.cursor.pos[1] = Math.min(
+               new_state.cursor.pos[1],
+               new_state.contents[new_state.cursor.pos[0]].text.length
             );
          }
       }
 
       // right arrow key
       if (event.keyCode == 39) {
-         if (new_cursor.pos[1] < this.state.contents[new_cursor.pos[0]].text.length) {
-            ++new_cursor.pos[1];
-         } else if (new_cursor.pos[0] < this.state.contents.length - 1) {
-            ++new_cursor.pos[0];
-            new_cursor.pos[1] = 0;
+         if (new_state.cursor.pos[1] < new_state.contents[new_state.cursor.pos[0]].text.length) {
+            ++new_state.cursor.pos[1];
+         } else if (new_state.cursor.pos[0] < new_state.contents.length - 1) {
+            ++new_state.cursor.pos[0];
+            new_state.cursor.pos[1] = 0;
          }
       }
 
@@ -228,17 +231,20 @@ export class Window extends React.Component {
       if (event.keyCode == 40) {
          // TODO: this needs more modifications to behave properly (needs to go up by pixels and then round to nearest char)
          // Also think about cases where paragraphs are more than 1 line long
-         if (new_cursor.pos[0] < this.state.contents.length - 1) {
-            ++new_cursor.pos[0];
-            new_cursor.pos[1] = Math.min(
-               new_cursor.pos[1],
-               this.state.contents[new_cursor.pos[0]].text.length
+         if (new_state.cursor.pos[0] < new_state.contents.length - 1) {
+            ++new_state.cursor.pos[0];
+            new_state.cursor.pos[1] = Math.min(
+               new_state.cursor.pos[1],
+               new_state.contents[new_state.cursor.pos[0]].text.length
             );
          };
       }
 
+      // update state
+      this.setState(new_state);
+
       // update cursor position
-      this.cursor_set_pos(new_cursor.pos[0], new_cursor.pos[1]);
+      this.cursor_set_pos(new_state.cursor.pos[0], new_state.cursor.pos[1]);
    }
 
    cursor_show() {
@@ -265,6 +271,8 @@ export class Window extends React.Component {
 
    cursor_update() {
       const content_offset = this.state.cursor.pos[0];
+      const content_id = this.state.contents[content_offset].key;
+
       const char_offset = this.state.cursor.pos[1];
 
       const win_rect = this.editor_win.current.getBoundingClientRect();
@@ -292,50 +300,41 @@ export class Window extends React.Component {
       };
 
       var coord = this.state.cursor.coord;
-      if (content_offset >= 0 && content_offset < Object.entries(this.p_refs).length) {
-         // now we need to find the pixel position of the character offset
-         var orig_content = this.state.contents[content_offset].text;
 
-         var new_content = orig_content.slice(0, char_offset)
-            + '<span id="offset_check">_</span>'
-            // getBoundingClientRect() returns [0, 0] if the last char is ' ' for some reason
-            // so replace it with a visible character...
-            + (orig_content.slice(char_offset) ? orig_content.slice(char_offset) : '_');
+      // now we need to find the pixel position of the character offset
+      var orig_content = this.state.contents[content_offset].text;
 
-         this.p_refs[content_offset].current.p_node.innerHTML = new_content;
-         var offset = document.getElementById('offset_check').getBoundingClientRect();
-         this.p_refs[content_offset].current.p_node.innerHTML = orig_content;
+      var new_content = orig_content.slice(0, char_offset)
+         + '<span id="offset_check">_</span>'
+         // getBoundingClientRect() returns [0, 0] if the last char is ' ' for some reason
+         // so replace it with a visible character...
+         + (orig_content.slice(char_offset) ? orig_content.slice(char_offset) : '_');
 
-         coord[0] = offset.x - origin.x;
-         coord[1] = offset.y - origin.y;
-      }
+      this.p_refs[content_id].current.p_node.innerHTML = new_content;
+      var offset = document.getElementById('offset_check').getBoundingClientRect();
+      this.p_refs[content_id].current.p_node.innerHTML = orig_content;
+
+      coord[0] = offset.x - origin.x;
+      coord[1] = offset.y - origin.y;
 
       return coord;
    }
 
-   add_paragraph(contents = "", paragraph_idx = null) {
-      const new_contents = this.state.contents;
-      const p = this.create_paragraph(contents);
-      const next_content_id = this.state.next_content_id + 1;
+   add_paragraph(curr_state, contents = "", paragraph_idx = null) {
+      const p = this.create_paragraph(curr_state, contents);
 
-      if (!paragraph_idx || paragraph_idx > new_contents.length) {
-         new_contents.push(p);
-         paragraph_idx = new_contents.length - 1;
-      } else {
-         new_contents.splice(paragraph_idx, 0, p);
-      }
-      this.p_refs[paragraph_idx] = React.createRef();
+      curr_state.next_content_id = curr_state.next_content_id + 1;
+      curr_state.contents.splice((paragraph_idx ? paragraph_idx : Infinity), 0, p);
 
-      this.setState({
-         next_content_id: next_content_id,
-         contents: new_contents,
-      });
+      this.p_refs[p.key] = React.createRef();
+
+      return curr_state;
    }
 
    // don't call this unless you want to manually add the returned paragraph object to state
-   create_paragraph(contents = "") {
+   create_paragraph(curr_state, contents = "") {
       var p = {
-         key: this.state.next_content_id,
+         key: curr_state.next_content_id,
          debug: false,
          text: contents,
       };
@@ -343,12 +342,13 @@ export class Window extends React.Component {
       return p;
    }
 
-   remove_paragraph(content_id) {
-      const new_contents = this.state.contents;
-      new_contents.splice(content_id, 1);
+   remove_paragraph(curr_state, content_offset) {
+      const content_id = curr_state.contents[content_offset].key;
 
+      curr_state.contents.splice(content_offset, 1);
       delete this.p_refs[content_id];
-      this.setState({ contents: new_contents });
+
+      return curr_state;
    }
 
    render() {
@@ -357,7 +357,7 @@ export class Window extends React.Component {
          items.push(
             <Paragraph
                key={tag.key}
-               ref={this.p_refs[index]}
+               ref={this.p_refs[tag.key]}
                className={this.state.debug ? 'debug' : undefined}
                content_id={tag.key}
                contents={tag.text}
