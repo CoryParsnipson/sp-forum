@@ -11,7 +11,7 @@ window.props.editor_action = window.django.editor_action;
 window.props.post_meta = {
    'thread': window.django.thread_id
 };
-window.props.editor_on_submit = function(event) {
+window.props.editor_on_submit = function(event, editor) {
    event.preventDefault();
 
    // load up status bar input value with innerHTML of editor window
@@ -56,11 +56,7 @@ window.props.editor_on_submit = function(event) {
       document.getSelection().removeAllRanges();
 
       // after successful post, clear editor contents
-      var editor_window = document.getElementById("editor-area").getElementsByClassName("editor-window-contents")[0];
-      editor_window.innerHTML = '<p class="content"></p>';
-
-      // TODO: this causes javascript error if user tries to type in editor after this.
-      // need to create a reset function in the react component.
+      editor.window.current.clear();
    });
 };
 

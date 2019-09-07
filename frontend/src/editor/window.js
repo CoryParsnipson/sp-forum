@@ -55,6 +55,8 @@ export class Window extends React.Component {
       this.add_paragraph = this.add_paragraph.bind(this);
       this.create_paragraph = this.create_paragraph.bind(this);
       this.remove_paragraph = this.remove_paragraph.bind(this);
+
+      this.content_offset_from_id = this.content_offset_from_id.bind(this);
    }
 
    clear() {
@@ -354,6 +356,16 @@ export class Window extends React.Component {
       return curr_state;
    }
 
+   content_offset_from_id(content_id) {
+      for (const [index, tag] of this.state.contents.entries()) {
+         if (content_id == tag.key) {
+            return index;
+         }
+      }
+
+      return -1;
+   }
+
    render() {
       const items = [];
       for (const [index, tag] of this.state.contents.entries()) {
@@ -367,6 +379,7 @@ export class Window extends React.Component {
                cursor_move={this.cursor_set_pos}
                cursor_show={this.cursor_show}
                cursor_hide={this.cursor_hide}
+               content_offset_from_id={this.content_offset_from_id}
             />
          );
       }

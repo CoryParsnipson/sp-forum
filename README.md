@@ -5,7 +5,6 @@ Experiments in online communication
 
 * Make the forum and thread list views usable.
 * Implement breadcrumb navigation
-* Implement reset function in editor react component (that clears editor window of content and resets state)
 
 * Change editor so that it has the same styling as an existing post
 

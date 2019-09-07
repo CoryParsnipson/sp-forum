@@ -18,7 +18,8 @@ export class Paragraph extends React.Component {
       if (sel.rangeCount) {
          var range = sel.getRangeAt(0).cloneRange();
          if (range.getClientRects && range.collapsed) {
-            this.props.cursor_move(this.props.content_id, range.startOffset);
+            const content_offset = this.props.content_offset_from_id(this.props.content_id);
+            this.props.cursor_move(content_offset, range.startOffset);
             this.props.cursor_show();
          } else {
             this.props.cursor_hide();
