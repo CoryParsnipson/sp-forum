@@ -6,7 +6,7 @@ import * as utils from './utils.js'
 import { Editor } from './editor/editor.js';
 
 // import site-wide CSS files
-import style_site_base from '../assets/css/site-base.css';
+import style_site_base from '../assets/css/site-base.scss';
 
 window.props = {};
 window.props.editor_id = "editor1";

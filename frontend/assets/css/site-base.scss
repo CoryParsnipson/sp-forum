@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 
+$site-width: 600px;
+
 * {
    margin: 0;
    padding: 0;
@@ -10,7 +12,7 @@ html, body {
 }
 
 section.main-content {
-   width: 600px;
+   width: $site-width;
    margin: 0 auto;
 }
 
