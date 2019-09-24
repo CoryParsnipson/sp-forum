@@ -7,7 +7,7 @@ module.exports = {
    context: __dirname,
    entry: './src/index.js',
    output: {
-      path: path.resolve('../backend/assets/js/webpack_bundles'),
+      path: path.resolve('../backend/assets/webpack_bundles'),
       filename: "[name]-[hash].js",
    },
    plugins: [

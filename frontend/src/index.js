@@ -5,6 +5,9 @@ import * as utils from './utils.js'
 
 import { Editor } from './editor/editor.js';
 
+// import site-wide CSS files
+import style_site_base from '../assets/css/site-base.css';
+
 window.props = {};
 window.props.editor_id = "editor1";
 window.props.editor_action = window.django.editor_action;

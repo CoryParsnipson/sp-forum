@@ -135,7 +135,7 @@ STATICFILES_DIRS = (
 WEBPACK_LOADER = {
     'DEFAULT': {
         'CACHE': not DEBUG,
-        'BUNDLE_DIR_NAME': 'js/webpack_bundles/', # must end with slash
+        'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
         'STATS_FILE': os.path.join(ROOT_DIR, 'frontend', 'webpack-stats.json'),
         'POLL_INTERVAL': 0.1,
         'TIMEOUT': None,
