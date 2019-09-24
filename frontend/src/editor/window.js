@@ -1,9 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import '../../assets/css/editor-base.css'
-import '../../assets/css/editor-debug.css'
-
 import { Paragraph } from './paragraph.js'
 import { Cursor } from './cursor.js'
 

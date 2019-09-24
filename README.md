@@ -39,6 +39,9 @@ Experiments in online communication
    ```
 * [Adding the Django CSRF Protection to React Forms](https://www.techiediaries.com/django-react-forms-csrf-axios)
 
+* [WTF is SASS/SCSS and how do I use it??](https://marksheet.io/sass-scss-less.html)
+* [Install Sass and sass-loader through NPM](https://www.npmjs.com/package/sass-loader)
+
 ## Setting up the frontend dev environment
 
 1. Create a virtualenv inside the repo:

@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import '../../assets/css/editor-base.css'
-
 export class Paragraph extends React.Component {
    constructor(props) {
       super(props);

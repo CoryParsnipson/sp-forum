@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import '../../assets/css/editor-base.css'
+import style_editor_base from '../../assets/css/editor-base.css'
+import style_editor_debug from '../../assets/css/editor-debug.css'
 
 import { Window } from './window.js'
 import { StatusBar } from './status_bar.js'

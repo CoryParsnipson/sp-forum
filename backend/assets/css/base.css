@@ -31,11 +31,14 @@ p.content:after {
    min-height: 1em;
 }
 
+table {
+   border-collapse: collapse;
+   border-spacing: 0;
+}
+
 table.posts {
    width: 100%;
    font-size: 16pt;
-   border-collapse: collapse;
-   border-spacing: 0;
    margin: 2em 0;
 }
 
