@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 
+@import 'base';
+
 $site-width: 600px;
 
 * {
@@ -9,6 +11,7 @@ $site-width: 600px;
 
 html, body {
    width: 100%;
+   font-size: $default-font-size;
 }
 
 section.main-content {
@@ -18,7 +21,7 @@ section.main-content {
 
 p.content {
    min-height: 1em;
-   font-size: 16pt;
+   font-size: $default-font-size;
    font-family: 'Source Sans Pro', sans-serif;
 
    word-break: break-word;
@@ -38,9 +41,27 @@ table {
    border-spacing: 0;
 }
 
+table.forums {
+   width: 80%;
+   margin: 2em auto;
+}
+
+table.forums th, table.forums td {
+   border: 1px solid grey;
+}
+
+table.threads {
+   width: 80%;
+   margin: 2em auto;
+}
+
+table.threads th, table.threads td {
+   border: 1px solid grey;
+}
+
 table.posts {
    width: 100%;
-   font-size: 16pt;
+   font-size: $default-font-size;
    margin: 2em 0;
 }
 

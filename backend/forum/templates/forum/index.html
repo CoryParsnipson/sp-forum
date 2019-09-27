@@ -13,7 +13,13 @@
       </header>
 
       <article>
-         <table>
+         <table class="forums">
+            <thead>
+               <tr>
+                  <th>Rooms</th>
+                  <td></td>
+               </tr>
+            </thead>
             <tbody>
                {% for forum in forums %}
                   <tr>
@@ -29,5 +35,7 @@
 
       <section class="main-content">
       </section>
+
+      {% render_bundle 'main' %}
    </body>
 </html>

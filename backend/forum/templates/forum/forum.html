@@ -14,7 +14,7 @@
       </header>
 
       <article>
-         <table>
+         <table class="threads">
             <tbody>
                {% for thread in threads %}
                   <tr>
@@ -27,5 +27,7 @@
             </tbody>
          </table>
       </article>
+
+      {% render_bundle 'main' %}
    </body>
 </html>
