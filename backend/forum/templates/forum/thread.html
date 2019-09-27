@@ -46,7 +46,8 @@
          window.django.thread_id = "{{ thread.id }}";
          window.django.editor_action = "{% url 'post-list' %}";
       </script>
-      {% render_bundle 'main' %}
+      {% render_bundle 'base' 'css' %}
+      {% render_bundle 'editor' %}
 
    </body>
 </html>
