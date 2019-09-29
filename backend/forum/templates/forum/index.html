@@ -1,41 +1,29 @@
-{% load static %}
-{% load render_bundle from webpack_loader %}
-<!DOCTYPE html>
+{% extends 'forum/template_page_default.html' %}
 
-<html lang="en">
-   <head>
-      <title>SP Forum</title>
-   </head>
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+   {% breadcrumb 'Home' '' %}
+{% endblock breadcrumbs %}
 
-   <body>
-      <header>
-         <h1>SP Forums</h1>
-      </header>
-
-      <article>
-         <table class="forums">
-            <thead>
+{% block content %}
+   <article>
+      <table class="forums">
+         <thead>
+            <tr>
+               <th>Rooms</th>
+               <td></td>
+            </tr>
+         </thead>
+         <tbody>
+            {% for forum in forums %}
                <tr>
-                  <th>Rooms</th>
-                  <td></td>
+                  <th><a href="{% url 'forum:forum-detail-by-slug' forum_slug=forum.slug %}">{{ forum.title }}</a></th>
+                  <td>{{ forum.description }}</td>
                </tr>
-            </thead>
-            <tbody>
-               {% for forum in forums %}
-                  <tr>
-                     <th><a href="{% url 'forum-detail-by-slug' forum_slug=forum.slug %}">{{ forum.title }}</a></th>
-                     <td>{{ forum.description }}</td>
-                  </tr>
-               {% empty %}
-                  <tr><td>There are no forums...</td></tr>
-               {% endfor %}
-            </tbody>
-         </table>
-      </article>
-
-      <section class="main-content">
-      </section>
-
-      {% render_bundle 'base' 'css' %}
-   </body>
-</html>
+            {% empty %}
+               <tr><td>There are no forums...</td></tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </article>
+{% endblock content %}

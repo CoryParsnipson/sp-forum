@@ -14,6 +14,14 @@ html, body {
    font-size: $default-font-size;
 }
 
+.breadcrumb-container {
+   min-height: 1em;
+   background: #FFB463;
+   border-radius: 5px;
+   padding: 5px;
+   margin: 0 20px;
+}
+
 section.main-content {
    width: $site-width;
    margin: 0 auto;

@@ -1,0 +1,31 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html lang="en">
+   {% block header %}
+      <head>
+         <title>SP Forum</title>
+      </head>
+   {% endblock header %}
+
+   <body>
+      {% block header_content %}
+         <header>
+            <h1>SP Forums</h1>
+         </header>
+      {% endblock header_content %}
+
+      <ul class="breadcrumb-container">
+         {% block breadcrumbs %}
+         {% endblock breadcrumbs %}
+      </ul>
+
+      {% block content %}
+      {% endblock content %}
+
+      {% block scripts %}
+         {% load render_bundle from webpack_loader %}
+         {% render_bundle 'base' 'css' %}
+      {% endblock %}
+   </body>
+</html>

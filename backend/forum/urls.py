@@ -9,6 +9,7 @@ api_router.register(r'users', views.UserViewSet)
 api_router.register(r'forums', views.ForumViewSet)
 api_router.register(r'posts', views.PostViewSet)
 
+app_name = 'forum'
 urlpatterns = [
     path('', views.index, name='index'),
 

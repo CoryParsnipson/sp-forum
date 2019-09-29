@@ -1,33 +1,41 @@
-{% load static %}
-{% load render_bundle from webpack_loader %}
-<!DOCTYPE html>
+{% extends 'forum/template_page_default.html' %}
 
-<html lang="en">
+{% block header %}
    <head>
       <title>SP Forum :: {{ forum.title }}</title>
    </head>
+{% endblock header %}
 
-   <body>
-      <header>
-         <h1>{{ forum.title }}</h1>
-         <h3>{{ forum.description }}</h3>
-      </header>
+{% block header_content %}
+   <header>
+      <h1>{{ forum.title }}</h1>
+      <h3>{{ forum.description }}</h3>
+   </header>
+{% endblock header_content %}
 
-      <article>
-         <table class="threads">
-            <tbody>
-               {% for thread in threads %}
-                  <tr>
-                     <th><a href="{% url 'thread-detail-by-slug' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></th>
-                     <td>{{ thread.author.username }}</td>
-                  </tr>
-               {% empty %}
-                  <tr><td>There are no threads...</td></tr>
-               {% endfor %}
-            </tbody>
-         </table>
-      </article>
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+   {% breadcrumb 'Home' 'forum:index' %}
+{% endblock breadcrumbs %}
 
-      {% render_bundle 'base' 'css' %}
-   </body>
-</html>
+{% block content %}
+   <article>
+      <table class="threads">
+         <tbody>
+            {% for thread in threads %}
+               <tr>
+                  <th><a href="{% url 'forum:thread-detail-by-slug' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></th>
+                  <td>{{ thread.author.username }}</td>
+               </tr>
+            {% empty %}
+               <tr><td>There are no threads...</td></tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </article>
+{% endblock content %}
+
+{% block scripts %}
+   {% load render_bundle from webpack_loader %}
+   {% render_bundle 'base' 'css' %}
+{% endblock scripts %}

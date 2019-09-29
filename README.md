@@ -6,8 +6,6 @@ Experiments in online communication
 * Make the forum and thread list views usable.
 * Implement breadcrumb navigation
 
-* Change editor so that it has the same styling as an existing post
-
 * Beef up user authentication
    * Make it possible for users to "reclaim" posts? (automatically through finding old posts in user storage and manually through trip codes?)
 
@@ -42,7 +40,7 @@ Experiments in online communication
 * [WTF is SASS/SCSS and how do I use it??](https://marksheet.io/sass-scss-less.html)
 * [Install Sass and sass-loader through NPM](https://www.npmjs.com/package/sass-loader)
 
-## Setting up the frontend dev environment
+## Setting up the dev environment
 
 1. Create a virtualenv inside the repo:
 
