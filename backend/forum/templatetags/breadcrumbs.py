@@ -11,7 +11,7 @@ def breadcrumb(link_text, url_name = None, *args, **kwargs):
     """
 
     if not url_name:
-        bc_str = "<li>%s</li>" % link_text
+        bc_str = "<li><a class=\"no-click\">%s</a></li>" % link_text
     else:
         bc_str = "<li><a href=\"%s\">%s</a></li>" % (reverse(url_name, kwargs=kwargs), link_text)
 

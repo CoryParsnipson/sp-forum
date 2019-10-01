@@ -16,6 +16,7 @@
 {% load breadcrumbs %}
 {% block breadcrumbs %}
    {% breadcrumb 'Home' 'forum:index' %}
+   {% breadcrumb forum.title %}
 {% endblock breadcrumbs %}
 
 {% block content %}

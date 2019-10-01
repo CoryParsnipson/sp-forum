@@ -14,12 +14,60 @@ html, body {
    font-size: $default-font-size;
 }
 
-.breadcrumb-container {
+ul.breadcrumb-container {
    min-height: 1em;
+   list-style-type: none;
    background: #FFB463;
    border-radius: 5px;
-   padding: 5px;
-   margin: 0 20px;
+   overflow: auto;
+   padding: 0 30px;
+   margin: 10px 20px;
+}
+
+ul.breadcrumb-container li {
+   display: list-item;
+   float: left;
+}
+
+ul.breadcrumb-container li:before {
+   width: 0.33em;
+   height: 0.33em;
+
+   content: "";
+
+   display: inline-block;
+   border-right: 3px solid black;
+   border-bottom: 3px solid black;
+
+   transform: rotate(-45deg);
+   margin: 0 10px;
+}
+
+ul.breadcrumb-container li:first-child:before {
+   display: none;
+}
+
+ul.breadcrumb-container li a {
+   display: inline-block;
+   text-decoration: none;
+   padding: 5px 10px;
+}
+
+ul.breadcrumb-container li a:visited {
+   color: inherit;
+}
+
+ul.breadcrumb-container li a:hover {
+   background: #E69947;
+}
+
+ul.breadcrumb-container li a.no-click {
+   cursor: default;
+   text-decoration: none;
+}
+
+ul.breadcrumb-container li a.no-click:hover {
+   background: transparent;
 }
 
 section.main-content {
