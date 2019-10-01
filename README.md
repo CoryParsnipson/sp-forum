@@ -4,7 +4,6 @@ Experiments in online communication
 ## TODO
 
 * Make the forum and thread list views usable.
-* Implement breadcrumb navigation
 
 * Beef up user authentication
    * Make it possible for users to "reclaim" posts? (automatically through finding old posts in user storage and manually through trip codes?)
