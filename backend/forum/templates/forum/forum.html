@@ -6,13 +6,6 @@
    </head>
 {% endblock header %}
 
-{% block header_content %}
-   <header>
-      <h1>{{ forum.title }}</h1>
-      <h3>{{ forum.description }}</h3>
-   </header>
-{% endblock header_content %}
-
 {% load breadcrumbs %}
 {% block breadcrumbs %}
    {% breadcrumb 'Home' 'forum:index' %}
@@ -20,20 +13,22 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-   <article>
-      <table class="threads">
-         <tbody>
-            {% for thread in threads %}
-               <tr>
-                  <th><a href="{% url 'forum:thread-detail-by-slug' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></th>
-                  <td>{{ thread.author.username }}</td>
-               </tr>
-            {% empty %}
-               <tr><td>There are no threads...</td></tr>
-            {% endfor %}
-         </tbody>
-      </table>
-   </article>
+   <h1>{{ forum.title }}</h1>
+   <h3>{{ forum.description }}</h3>
+   <hr>
+
+   <table class="threads">
+      <tbody>
+         {% for thread in threads %}
+            <tr>
+               <th><a href="{% url 'forum:thread-detail-by-slug' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></th>
+               <td>{{ thread.author.username }}</td>
+            </tr>
+         {% empty %}
+            <tr><td>There are no threads...</td></tr>
+         {% endfor %}
+      </tbody>
+   </table>
 {% endblock content %}
 
 {% block scripts %}

@@ -2,8 +2,6 @@
 
 @import 'base';
 
-$site-width: 600px;
-
 * {
    margin: 0;
    padding: 0;
@@ -11,25 +9,97 @@ $site-width: 600px;
 
 html, body {
    width: 100%;
+   font-family: "Source Sans Pro", "Sans Serif";
    font-size: $default-font-size;
 }
 
-ul.breadcrumb-container {
+.header {
+   width: 100%;
+   background: $accent-primary1;
+}
+
+.header_content {
+   width: $site-width;
+   padding: 0 $site-padding-right 0 $site-padding-left;
+   margin: 0 auto;
+}
+
+.logo {
+   color: $accent-secondary1;
+}
+
+.second_header {
+   width: 100%;
+   min-height: 40px;
+   background: $accent-primary2;
+}
+
+.second_header_content {
+   width: $site-width;
+   color: $accent-secondary1;
+   padding: $site-padding_top $site-padding-right $site-padding-bottom $site-padding-left;
+   margin: 0 auto;
+}
+
+.body_wrapper {
+}
+
+.backing {
+   width: 100%;
+   height: 350px;
+   display: block;
+   background: $accent-secondary1;
+   border-bottom: 1px solid $accent-secondary2;
+   position: absolute;
+}
+
+.pre_main_content {
+   width: 100%;
+   overflow: auto;
+}
+
+.main_content {
+   width: $site-width;
+   min-height: 500px;
+   background: $background-primary;
+   position: relative;
+   left: 50%;
+   transform: translate(-50%, 0);
+   border-left: 1px solid $accent-secondary2;
+   border-right: 1px solid $accent-secondary2;
+   padding: 15px;
+}
+
+.footer {
+   width: 100%;
+   min-height: 300px;
+   background: $accent-primary1;
+}
+
+hr {
+   color: $accent-secondary1;
+   background-color: $accent-secondary1;
+   border: 1px solid $accent-secondary2;
+   margin: 1em 0;
+}
+
+.breadcrumb-container {
    min-height: 1em;
+   float: left;
    list-style-type: none;
    background: #FFB463;
    border-radius: 5px;
    overflow: auto;
    padding: 0 30px;
-   margin: 10px 20px;
+   margin-bottom: 20px;
 }
 
-ul.breadcrumb-container li {
+.breadcrumb-container li {
    display: list-item;
    float: left;
 }
 
-ul.breadcrumb-container li:before {
+.breadcrumb-container li:before {
    width: 0.33em;
    height: 0.33em;
 
@@ -43,36 +113,30 @@ ul.breadcrumb-container li:before {
    margin: 0 10px;
 }
 
-ul.breadcrumb-container li:first-child:before {
+.breadcrumb-container li:first-child:before {
    display: none;
 }
 
-ul.breadcrumb-container li a {
+.breadcrumb-container li a {
    display: inline-block;
-   text-decoration: none;
    padding: 5px 10px;
 }
 
-ul.breadcrumb-container li a:visited {
+.breadcrumb-container li a:visited {
    color: inherit;
 }
 
-ul.breadcrumb-container li a:hover {
+.breadcrumb-container li a:hover {
    background: #E69947;
 }
 
-ul.breadcrumb-container li a.no-click {
+.breadcrumb-container li a.no-click {
    cursor: default;
    text-decoration: none;
 }
 
-ul.breadcrumb-container li a.no-click:hover {
+.breadcrumb-container li a.no-click:hover {
    background: transparent;
-}
-
-section.main-content {
-   width: $site-width;
-   margin: 0 auto;
 }
 
 p.content {
@@ -98,8 +162,8 @@ table {
 }
 
 table.forums {
-   width: 80%;
-   margin: 2em auto;
+   width: 100%;
+   margin: 0 auto;
 }
 
 table.forums th, table.forums td {
@@ -107,8 +171,8 @@ table.forums th, table.forums td {
 }
 
 table.threads {
-   width: 80%;
-   margin: 2em auto;
+   width: 100%;
+   margin: 0 auto;
 }
 
 table.threads th, table.threads td {
@@ -118,7 +182,6 @@ table.threads th, table.threads td {
 table.posts {
    width: 100%;
    font-size: $default-font-size;
-   margin: 2em 0;
 }
 
 table.posts th {
@@ -127,7 +190,7 @@ table.posts th {
 
 table.posts th, table.posts td {
    border-bottom: 1px solid grey;
-   padding: 5px;
+   padding: 15px 25px;
 }
 
 table.posts tr:last-of-type th, table.posts tr:last-of-type td {
@@ -135,6 +198,6 @@ table.posts tr:last-of-type th, table.posts tr:last-of-type td {
 }
 
 table.posts .post-meta {
-   width: 200px;
+   width: 300px;
    background: #D4D4D4;
 }

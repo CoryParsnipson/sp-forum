@@ -6,13 +6,6 @@
    </head>
 {% endblock header %}
 
-{% block header_content %}
-   <header>
-      <h1>{{ thread.title }}</h1>
-      <h3>OP: {{ thread.author }}</h3>
-   </header>
-{% endblock header_content %}
-
 {% load breadcrumbs %}
 {% block breadcrumbs %}
    {% breadcrumb 'Home' 'forum:index' %}
@@ -21,33 +14,32 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-   <article>
-      <section class="main-content">
-         <table class="posts">
-            <tbody>
-               {% for post in posts %}
-                  <tr>
-                     <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
-                     <td class="post-content">{{ post.content|safe }}</td>
-                  </tr>
-               {% empty %}
-                  <tr><td>There are no posts in this thread...</td></tr>
-               {% endfor %}
-   
-               <tr>
-                  <!-- TODO: replace this with new post meta information -->
-                  <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
-                  <td class="post-content">
-                     <div id="editor-area">
-                        TODO: implement non-javascript version
-                     </div>
-                  </td>
-               </tr>
-            </tbody>
-         </table>
-   
-      </section>
-   </article>
+   <h1>{{ thread.title }}</h1>
+   <h3>OP: {{ thread.author }}</h3>
+   <hr>
+
+   <table class="posts">
+      <tbody>
+         {% for post in posts %}
+            <tr>
+               <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
+               <td class="post-content">{{ post.content|safe }}</td>
+            </tr>
+         {% empty %}
+            <tr><td>There are no posts in this thread...</td></tr>
+         {% endfor %}
+
+         <tr>
+            <!-- TODO: replace this with new post meta information -->
+            <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
+            <td class="post-content">
+               <div id="editor-area">
+                  TODO: implement non-javascript version
+               </div>
+            </td>
+         </tr>
+      </tbody>
+   </table>
 {% endblock content %}
 
 {% block scripts %}

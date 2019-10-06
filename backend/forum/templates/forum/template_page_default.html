@@ -9,19 +9,51 @@
    {% endblock header %}
 
    <body>
-      {% block header_content %}
-         <header>
-            <h1>SP Forums</h1>
-         </header>
-      {% endblock header_content %}
+      {% block header_formatting %}
+         <div class="header">
+            <div class="header_content">
+               <header>
+                  {% block header_content %}
+                     <h1 class="logo">SP Forums</h1>
+                  {% endblock header_content %}
+               </header>
+            </div>
+         </div>
+      {% endblock header_formatting %}
 
-      <ul class="breadcrumb-container">
-         {% block breadcrumbs %}
-         {% endblock breadcrumbs %}
-      </ul>
+      {% block second_header_formatting %}
+         <div class="second_header">
+            <div class="second_header_content">
+               {% block second_header_content %}
+               {% endblock second_header_content %}
+            </div>
+         </div>
+      {% endblock second_header_formatting %}
 
-      {% block content %}
-      {% endblock content %}
+      <div class="body_wrapper">
+         {% block backing %}
+            <div class="backing"></div>
+         {% endblock backing %}
+
+         <div class="main_content">
+            <div class="pre_main_content">
+               <ul class="breadcrumb-container">
+                  {% block breadcrumbs %}
+                  {% endblock breadcrumbs %}
+               </ul>
+            </div>
+
+            {% block content %}
+            {% endblock content %}
+         </div>
+      </div>
+
+      <div class="footer">
+         {% block footer_formatting %}
+            {% block footer_content %}
+            {% endblock footer_content %}
+         {% endblock footer_formatting %}
+      </div>
 
       {% block scripts %}
          {% load render_bundle from webpack_loader %}
