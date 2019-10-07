@@ -1,0 +1,59 @@
+// default css styles governing breadcrumb navigation
+
+.breadcrumb-container {
+   min-height: 1em;
+   float: left;
+   list-style-type: none;
+   background: #FFB463;
+   border-radius: 5px;
+   overflow: auto;
+   padding: 0 30px;
+   margin-bottom: 20px;
+}
+
+.breadcrumb-container li {
+   display: list-item;
+   float: left;
+   padding: 5px 10px;
+}
+
+.breadcrumb-container li:before {
+   width: 0.33em;
+   height: 0.33em;
+
+   content: "";
+
+   display: inline-block;
+   border-right: 3px solid black;
+   border-bottom: 3px solid black;
+
+   transform: rotate(-45deg) translate(0.1em, 0);
+
+   margin-left: -0.25em;
+   margin-right: 0.75em;
+}
+
+.breadcrumb-container li:first-child:before {
+   display: none;
+}
+
+.breadcrumb-container li a {
+   text-decoration: none;
+}
+
+.breadcrumb-container li a:visited {
+   color: inherit;
+}
+
+.breadcrumb-container li a:hover {
+   text-decoration: underline;
+   text-decoration-color: #E37A09;
+}
+
+.breadcrumb-container li a.no-click {
+   cursor: default;
+}
+
+.breadcrumb-container li a.no-click:hover {
+   text-decoration: none;
+}

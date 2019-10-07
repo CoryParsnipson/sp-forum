@@ -1,0 +1,21 @@
+// default css styles governing forum room lists
+@import 'base';
+
+.forums_list {
+   width: 100%;
+
+   .forums_list_header {
+      color: $accent_secondary1;
+      background: $accent_primary2;
+      text-align: left;
+      padding: 15px;
+   }
+
+   .forums_list_data {
+      padding: 15px;
+   }
+}
+
+.forums_list tr:nth-child(even) {
+   background: $accent_secondary2;
+}

@@ -1,0 +1,21 @@
+// default css styles governing thread lists
+@import 'base';
+
+.threads_list {
+   width: 100%;
+
+   .threads_list_header {
+      color: $accent_secondary1;
+      background: $accent_primary2;
+      text-align: left;
+      padding: 15px;
+   }
+
+   .threads_list_data {
+      padding: 15px;
+   }
+}
+
+.threads_list tr:nth-child(even) {
+   background: $accent_secondary2;
+}

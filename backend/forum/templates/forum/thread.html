@@ -16,23 +16,22 @@
 {% block content %}
    <h1>{{ thread.title }}</h1>
    <h3>OP: {{ thread.author }}</h3>
-   <hr>
 
-   <table class="posts">
+   <table class="posts_list">
       <tbody>
          {% for post in posts %}
             <tr>
-               <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
-               <td class="post-content">{{ post.content|safe }}</td>
+               <th class="posts_list_header">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
+               <td class="posts_list_data">{{ post.content|safe }}</td>
             </tr>
          {% empty %}
-            <tr><td>There are no posts in this thread...</td></tr>
+            <tr><td class="posts_list_data">There are no posts in this thread...</td></tr>
          {% endfor %}
 
          <tr>
             <!-- TODO: replace this with new post meta information -->
-            <th class="post-meta">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
-            <td class="post-content">
+            <th class="posts_list_header">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
+            <td class="posts_list_data">
                <div id="editor-area">
                   TODO: implement non-javascript version
                </div>

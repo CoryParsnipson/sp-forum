@@ -1,0 +1,28 @@
+// default css styles governing post lists
+@import 'base';
+
+.posts_list {
+   width: 100%;
+
+   .posts_list_header {
+      width: 300px;
+      background: $accent_secondary1;
+      border-bottom: 1px solid $accent_secondary2;
+      text-align: center;
+      padding: 15px 25px;
+      vertical-align: top;
+   }
+
+   .posts_list_data {
+      border-bottom: 1px solid $accent_secondary2;
+      padding: 15px 25px;
+   }
+}
+
+.posts_list tr:last-of-type .posts_list_header,
+.posts_list tr:last-of-type .posts_list_data {
+   border: 0;
+}
+
+.posts_list .post-meta {
+}

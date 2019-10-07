@@ -15,17 +15,22 @@
 {% block content %}
    <h1>{{ forum.title }}</h1>
    <h3>{{ forum.description }}</h3>
-   <hr>
 
-   <table class="threads">
+   <table class="threads_list">
+      <thead>
+         <tr>
+            <th class="threads_list_header">Threads</th>
+            <th class="threads_list_header"></th>
+         </tr>
+      </thead>
       <tbody>
          {% for thread in threads %}
             <tr>
-               <th><a href="{% url 'forum:thread-detail-by-slug' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></th>
-               <td>{{ thread.author.username }}</td>
+               <td class="threads_list_data"><a href="{% url 'forum:thread-detail-by-slug' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></td>
+               <td class="threads_list_data">{{ thread.author.username }}</td>
             </tr>
          {% empty %}
-            <tr><td>There are no threads...</td></tr>
+            <tr><td class="threads_list_data">There are no threads...</td></tr>
          {% endfor %}
       </tbody>
    </table>

@@ -3,7 +3,20 @@ Experiments in online communication
 
 ## TODO
 
-* Make the forum and thread list views usable.
+### Goals necessary for deployment demo:
+
+* Thread creation flow
+* Secure REST API endpoints
+* Captcha support
+* Rate limit posting?
+
+### Future Goals
+
+* Admin control panel
+   * Forum creation outside Django admin?
+
+* User control panel
+   * edit profiles and stuff?
 
 * Beef up user authentication
    * Make it possible for users to "reclaim" posts? (automatically through finding old posts in user storage and manually through trip codes?)

@@ -1,0 +1,41 @@
+// default css styles governing common html elements
+
+* {
+   margin: 0;
+   padding: 0;
+}
+
+html, body {
+   width: 100%;
+   font-family: "Source Sans Pro", "Sans Serif";
+   font-size: $default-font-size;
+}
+
+hr {
+   color: $accent-secondary1;
+   background-color: $accent-secondary1;
+   border: 1px solid $accent-secondary2;
+   margin: 1em 0;
+}
+
+p.content {
+   min-height: 1em;
+   font-size: $default-font-size;
+   font-family: 'Source Sans Pro', sans-serif;
+
+   word-break: break-word;
+
+   margin: 0;
+   padding: 0;
+}
+
+/* this is to make empty lines the same height as non empty lines */
+p.content:after {
+   content: '\200B';
+   min-height: 1em;
+}
+
+table {
+   border-collapse: collapse;
+   border-spacing: 0;
+}

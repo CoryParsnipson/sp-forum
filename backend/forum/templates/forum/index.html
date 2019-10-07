@@ -7,21 +7,21 @@
 
 {% block content %}
    <article>
-      <table class="forums">
+      <table class="forums_list">
          <thead>
             <tr>
-               <th>Rooms</th>
-               <td></td>
+               <th class="forums_list_header">Topics</th>
+               <th class="forums_list_header"></th>
             </tr>
          </thead>
          <tbody>
             {% for forum in forums %}
                <tr>
-                  <th><a href="{% url 'forum:forum-detail-by-slug' forum_slug=forum.slug %}">{{ forum.title }}</a></th>
-                  <td>{{ forum.description }}</td>
+                  <td class="forums_list_data"><a href="{% url 'forum:forum-detail-by-slug' forum_slug=forum.slug %}">{{ forum.title }}</a></th>
+                  <td class="forums_list_data">{{ forum.description }}</td>
                </tr>
             {% empty %}
-               <tr><td>There are no forums...</td></tr>
+               <tr><td class="forums_list_data">There are no forums...</td></tr>
             {% endfor %}
          </tbody>
       </table>
