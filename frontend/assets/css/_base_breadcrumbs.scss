@@ -4,7 +4,7 @@
    min-height: 1em;
    float: left;
    list-style-type: none;
-   background: #FFB463;
+   background: $accent-tertiary1;
    border-radius: 5px;
    overflow: auto;
    padding: 0 30px;
@@ -47,7 +47,7 @@
 
 .breadcrumb-container li a:hover {
    text-decoration: underline;
-   text-decoration-color: #E37A09;
+   text-decoration-color: $accent-tertiary2;
 }
 
 .breadcrumb-container li a.no-click {

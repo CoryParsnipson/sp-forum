@@ -13,21 +13,25 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-   <h1>{{ forum.title }}</h1>
-   <h3>{{ forum.description }}</h3>
+   <div class="pre_threads_list">
+      <h1>{{ forum.title }}</h1>
+      <h4>{{ forum.description }}</h4>
+
+      <a class="new_thread_button" href="#">Create New Thread</a>
+   </div>
 
    <table class="threads_list">
       <thead>
          <tr>
-            <th class="threads_list_header">Threads</th>
-            <th class="threads_list_header"></th>
+            <th class="threads_list_header">Threads</th> 
+            <th class="threads_list_header">OP</th>
          </tr>
       </thead>
       <tbody>
          {% for thread in threads %}
             <tr>
                <td class="threads_list_data"><a href="{% url 'forum:thread-detail-by-slug' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></td>
-               <td class="threads_list_data">{{ thread.author.username }}</td>
+               <td class="threads_list_data">{{ thread.author.username|default:"Anonymous" }}</td>
             </tr>
          {% empty %}
             <tr><td class="threads_list_data">There are no threads...</td></tr>

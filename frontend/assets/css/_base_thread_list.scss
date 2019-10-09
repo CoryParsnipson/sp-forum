@@ -3,19 +3,45 @@
 
 .threads_list {
    width: 100%;
+   margin: 1em 0;
 
    .threads_list_header {
-      color: $accent_secondary1;
+      color: $accent_secondary3;
       background: $accent_primary2;
       text-align: left;
       padding: 15px;
+      width: 100%;
    }
 
    .threads_list_data {
+      min-width: 200px;
       padding: 15px;
    }
 }
 
 .threads_list tr:nth-child(even) {
    background: $accent_secondary2;
+}
+
+.pre_threads_list {
+   position: relative;
+}
+
+.new_thread_button {
+   background: $accent_tertiary1;
+   border-radius: 2em;
+   display: block;
+   padding: 15px 25px;
+   position: absolute;
+   right: 0;
+   bottom: 0;
+}
+
+.new_thread_button::before {
+   content: "+";
+   margin-right: 0.75em;
+}
+
+.new_thread_button:hover {
+   background: $accent_tertiary2;
 }
