@@ -15,7 +15,7 @@
 
 {% block content %}
    <h1>{{ thread.title }}</h1>
-   <h3>OP: {{ thread.author }}</h3>
+   <h3>OP: {{ thread.author|default:"Anonymous" }}</h3>
 
    <table class="posts_list">
       <tbody>
