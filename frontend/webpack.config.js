@@ -13,6 +13,8 @@ module.exports = {
    output: {
       path: path.resolve('../backend/assets/webpack_bundles'),
       filename: "[name]-[hash].js",
+      libraryTarget: 'var',
+      library: 'forum_js'
    },
    plugins: [
       new BundleTracker({filename: './webpack-stats.json'}),

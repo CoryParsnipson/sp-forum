@@ -27,6 +27,8 @@ Experiments in online communication
 * Implement copy and paste
 * Save drafts to local storage (or cookie or database)?
 
+* Figure out how to fucking use DRF (why do I feel like I'm the only one who thinks this framework is terrible?)
+
 ## Research and references
 
 * [Set up React in your Django Project with webpack](https://medium.com/uva-mobile-devhub/set-up-react-in-your-django-project-with-webpack-4fe1f8455396)
@@ -51,6 +53,9 @@ Experiments in online communication
 
 * [WTF is SASS/SCSS and how do I use it??](https://marksheet.io/sass-scss-less.html)
 * [Install Sass and sass-loader through NPM](https://www.npmjs.com/package/sass-loader)
+
+* [How to Expose Webpack Bundle as Library](https://stackoverflow.com/questions/34357489/calling-webpacked-code-from-outside-html-script-tag)
+* [Dealing with Multiple webpack entries and outputs](https://stackoverflow.com/questions/34378321/dynamic-library-option-with-multi-entry-points)
 
 ## Setting up the dev environment
 

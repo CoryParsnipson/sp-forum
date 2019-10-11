@@ -8,7 +8,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ['url', 'username', 'email', 'groups']
         extra_kwargs = {
-            'url': {'view_name': 'forum:user-detail'},
+            'url': {'view_name': 'user-detail'},
         }
 
 

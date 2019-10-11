@@ -35,7 +35,7 @@ window.props.editor_on_submit = function(event, editor) {
    })
    .then(function(response) {
       response.json().then(function(data) {
-         var post_list = document.getElementsByClassName("posts")[0];
+         var post_list = document.getElementsByClassName("posts_list")[0];
          var num_rows = post_list.getElementsByTagName("tr").length;
          var new_post = post_list.insertRow(num_rows - 1);
 
@@ -44,8 +44,8 @@ window.props.editor_on_submit = function(event, editor) {
 
          post_content.insertAdjacentElement("beforebegin", post_info);
 
-         post_info.classList.add("post-meta");
-         post_content.classList.add("post-content");
+         post_info.classList.add("posts_list_header");
+         post_content.classList.add("posts_list_data");
 
          post_info.innerHTML = data.author ? data.author.username : "Anonymous";
          post_content.innerHTML = data.content;
@@ -60,12 +60,17 @@ window.props.editor_on_submit = function(event, editor) {
    });
 };
 
-ReactDOM.render(
-   <Editor
-      editor_id={window.props.editor_id}
-      action={window.props.editor_action}
-      post_meta={window.props.post_meta}
-      on_submit={window.props.editor_on_submit}
-   />,
-   document.getElementById('editor-area')
-);
+// ----------------------------------------------------------------------------
+// External library functions
+// ----------------------------------------------------------------------------
+export function load_editor(editor_DOM_mountpoint) {
+   ReactDOM.render(
+      <Editor
+         editor_id={window.props.editor_id}
+         action={window.props.editor_action}
+         post_meta={window.props.post_meta}
+         on_submit={window.props.editor_on_submit}
+      />,
+      document.getElementById(editor_DOM_mountpoint)
+   );
+};

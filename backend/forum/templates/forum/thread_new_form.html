@@ -1,0 +1,28 @@
+{% extends 'forum/template_page_default.html' %}
+
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+   {% breadcrumb 'Home' '' %}
+   {% breadcrumb forum.title 'forum:forum-detail-by-slug' forum_slug=forum.slug %}
+   {% breadcrumb 'Create New Thread' %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+   <div id="new-thread-editor">
+      TODO: implement non-javascript version..., BIIIIITCH
+   </div>
+{% endblock content %}
+
+{% block scripts %}
+   <script>
+      window.django = {};
+      window.django.thread_id = "";
+      window.django.editor_action = "{% url 'forum:thread-create' forum_slug=forum.slug %}";
+   </script>
+
+   {% load render_bundle from webpack_loader %}
+   {% render_bundle 'base' 'css' %}
+   {% render_bundle 'editor' %}
+
+   <script>forum_js.load_editor('new-thread-editor');</script>
+{% endblock scripts %}

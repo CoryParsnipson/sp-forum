@@ -48,6 +48,26 @@ def _forum_detail(request, forum):
 
 
 ###############################################################################
+# thread create                                                               #
+###############################################################################
+def thread_new_form(request, forum_slug):
+    """
+    View to allow users to create a new thread.
+    """
+    context = {}
+    context['forum'] = get_object_or_404(Forum, slug=forum_slug)
+    return render(request, 'forum/thread_new_form.html', context)
+
+
+def thread_create(request, forum_slug):
+    """
+    View to allow users to create a new thread.
+    """
+    forum = get_object_or_404(Forum, slug=forum_slug)
+    pass
+
+
+###############################################################################
 # thread detail                                                               #
 ###############################################################################
 def thread_detail_by_id(request, id):

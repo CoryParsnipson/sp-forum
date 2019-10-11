@@ -51,4 +51,6 @@
    {% load render_bundle from webpack_loader %}
    {% render_bundle 'base' 'css' %}
    {% render_bundle 'editor' %}
+
+   <script>forum_js.load_editor('editor-area');</script>
 {% endblock %}

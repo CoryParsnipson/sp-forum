@@ -17,7 +17,7 @@
       <h1>{{ forum.title }}</h1>
       <h4>{{ forum.description }}</h4>
 
-      <a class="new_thread_button" href="#">Create New Thread</a>
+      <a class="new_thread_button" href="{% url 'forum:thread-new-form' forum_slug=forum.slug %}">Create New Thread</a>
    </div>
 
    <table class="threads_list">
