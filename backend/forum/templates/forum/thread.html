@@ -45,7 +45,7 @@
    <script>
       window.django = {};
       window.django.thread_id = "{{ thread.id }}";
-      window.django.editor_action = "{% url 'forum:post-list' %}";
+      window.django.editor_action = "{% url 'api:post-list' %}";
    </script>
 
    {% load render_bundle from webpack_loader %}

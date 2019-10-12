@@ -8,7 +8,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ['url', 'username', 'email', 'groups']
         extra_kwargs = {
-            'url': {'view_name': 'user-detail'},
+            'url': {'view_name': 'api:user-detail'},
         }
 
 
@@ -17,7 +17,7 @@ class ForumSerializer(serializers.HyperlinkedModelSerializer):
         model = Forum
         fields = ['url', 'title', 'slug', 'description']
         extra_kwargs = {
-            'url': {'view_name': 'forum:forum-detail'},
+            'url': {'view_name': 'api:forum-detail'},
         }
 
 
@@ -28,5 +28,6 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         model = Post
         fields = ['url', 'author', 'content', 'published', 'thread']
         extra_kwargs = {
-            'url': {'view_name': 'forum:post-detail'},
+            'url': {'view_name': 'api:post-detail'},
+            'author': {'view_name': 'api:user-detail'},
         }
