@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 from .models import User, Forum, Thread, Post
 from .serializers import UserSerializer, ForumSerializer, PostSerializer
@@ -109,6 +110,23 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
 
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+
+        Only Admin users can modify User objects, although anyone can
+        list and view them.
+        """
+        if (self.action == 'create'
+        or self.action == 'update'
+        or self.action == 'partial_update'
+        or self.action == 'destroy'):
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+
 
 class ForumViewSet(viewsets.ModelViewSet):
     """
@@ -117,10 +135,37 @@ class ForumViewSet(viewsets.ModelViewSet):
     queryset = Forum.objects.all().order_by('id')
     serializer_class = ForumSerializer
 
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
 
+        Only Admin users can modify User objects, although anyone can
+        list and view them.
+        """
+        if (self.action == 'create'
+        or self.action == 'update'
+        or self.action == 'partial_update'
+        or self.action == 'destroy'):
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+
+
+# TODO: Probably want to have even more granular permissions between anonymous
+# and logged in users. For example, anonymous users may be rate limited for
+# creating posts, but logged in users are not.
 class PostViewSet(viewsets.ModelViewSet):
     """
     API endpoing for viewing and editing forum posts
     """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
