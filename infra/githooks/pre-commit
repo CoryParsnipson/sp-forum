@@ -12,6 +12,9 @@ echo "[PRE-COMMIT] Running unit tests"
 ROOT_DIR=$(git rev-parse --show-toplevel)
 COMMIT_PASS=1
 
+# temporarily hide uncommit changes so they don't interfere with commit state
+git stash --keep-index
+
 # run unit tests
 cd ${ROOT_DIR}/backend &&
    source venv/bin/activate &&
@@ -35,7 +38,6 @@ then
    echo "=================================================================================================="
    echo "THE COMMIT HAS NOT COMPLETED!!! The unit tests for this commit are not clean. Please fix the unit "
    echo "tests and re-run commit."
-   exit 1
 else
    echo "======================================================================================================="
    echo " ██████╗ ██████╗ ███╗   ███╗███╗   ███╗██╗████████╗    ██████╗  █████╗ ███████╗███████╗███████╗██████╗ "
@@ -46,5 +48,9 @@ else
    echo " ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚═╝   ╚═╝       ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═════╝ "
    echo "======================================================================================================="
    echo "Congratulations! The commit has gone through. Ready to push."
-   exit 0
 fi
+
+# unhide uncommitted changes
+git stash pop stash@\{0\}
+
+exit ${COMMIT_PASS}
