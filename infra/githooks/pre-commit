@@ -13,7 +13,7 @@ ROOT_DIR=$(git rev-parse --show-toplevel)
 COMMIT_PASS=1
 
 # temporarily hide uncommit changes so they don't interfere with commit state
-git stash --keep-index
+git stash --keep-index >/dev/null 2>&1
 
 # run unit tests
 cd ${ROOT_DIR}/backend &&
@@ -51,6 +51,6 @@ else
 fi
 
 # unhide uncommitted changes
-git stash pop stash@\{0\}
+git stash pop stash@\{0\} >/dev/null 2>&1
 
 exit ${COMMIT_PASS}
