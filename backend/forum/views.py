@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 
 from rest_framework import viewsets
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
 from .models import User, Forum, Thread, Post
 from .serializers import UserSerializer, ForumSerializer, PostSerializer
@@ -167,5 +167,13 @@ class PostViewSet(viewsets.ModelViewSet):
         """
         Instantiates and returns the list of permissions that this view requires.
         """
-        permission_classes = [AllowAny]
+        if (self.action == 'update'
+        or self.action == 'partial_update'
+        or self.action == 'destroy'):
+            # TODO: we actually want to enable Object level permissions here and
+            # let anonymous (and authenticated) users edit or delete their own
+            # posts but none of the other ones.
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]

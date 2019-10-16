@@ -147,9 +147,9 @@ WEBPACK_LOADER = {
 # Django Rest Framework config
 
 REST_FRAMEWORK = {
-    # Allow all access (fine grained permissions handled in DRF ViewSets)
+    # Default global access is restrictive (finer grained relaxations handled in DRF ViewSets)
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
