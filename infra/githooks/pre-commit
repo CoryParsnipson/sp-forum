@@ -18,12 +18,9 @@ git stash --keep-index >/dev/null 2>&1
 # run unit tests
 cd ${ROOT_DIR}/backend &&
    source venv/bin/activate &&
-   python manage.py test
+   python manage.py test forum/tests
 
 [[ $? == 0 ]] && COMMIT_PASS=0 || COMMIT_PASS=1
-
-# TODO run integration tests
-#[[ $? == 0 ]] && COMMIT_PASS=0 || COMMIT_PASS=1
 
 # print result for users
 if [ ${COMMIT_PASS} -ne 0 ]

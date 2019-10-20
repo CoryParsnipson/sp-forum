@@ -71,12 +71,14 @@ def thread_create(request, forum_slug):
 ###############################################################################
 # thread detail                                                               #
 ###############################################################################
-def thread_detail_by_id(request, id):
+def thread_detail_by_id(request, forum_slug, id):
     """
     View the contents of a specific thread.
     """
     thread = get_object_or_404(Thread, pk=id)
-    forum = get_object_or_404(thread.forum)
+    forum = get_object_or_404(Forum, slug=thread.forum.slug)
+
+    assert(forum.slug == forum_slug)
     return _thread_detail(request, forum, thread)
     
 
