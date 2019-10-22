@@ -1,5 +1,9 @@
 // default css styles governing overall site structure
 
+body {
+   background: $background-primary;
+}
+
 .header {
    width: 100%;
    background: $accent-primary1;

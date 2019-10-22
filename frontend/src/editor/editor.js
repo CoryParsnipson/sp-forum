@@ -1,9 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import style_editor_base from '../../assets/css/editor-base.scss'
-import style_editor_debug from '../../assets/css/editor-debug.scss'
-
 import * as utils from './utils.js'
 
 import { Window } from './window.js'
