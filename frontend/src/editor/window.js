@@ -130,6 +130,7 @@ export class Window extends React.Component {
       // TODO: probably want to add a button and a more intuitive keyboard shortcut here instead
       if (event.keyCode === 68 && new_state.inputs.escape) {
          new_state.cursor.needs_update = true;
+         new_state.debug = !this.state.debug;
          this.setState(new_state);
          return;
       }
