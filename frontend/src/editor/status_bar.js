@@ -17,7 +17,7 @@ export class StatusBar extends React.Component {
             onSubmit={this.props.on_submit}
          >
             <input type="hidden" name="csrfmiddlewaretoken" value={utils.getCookie('csrftoken')} />
-            <input type="hidden" name="thread" value={this.props.post_meta.thread} />
+            <input type="hidden" name="thread" value={this.props.post.thread} />
             <input type="hidden" name="content" value="" />
 
             <button type="submit" value="POST">POST</button>

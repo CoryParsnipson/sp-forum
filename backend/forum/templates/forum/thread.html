@@ -42,15 +42,38 @@
 {% endblock content %}
 
 {% block scripts %}
-   <script>
-      window.django = {};
-      window.django.thread_id = "{{ thread.id }}";
-      window.django.editor_action = "{% url 'api:post-list' %}";
-   </script>
-
    {% load render_bundle from webpack_loader %}
    {% render_bundle 'base' 'css' %}
    {% render_bundle 'editor' %}
 
-   <script>forum_js.load_editor('editor-area');</script>
-{% endblock %}
+   <script>
+      // set up editor variables
+      props = {
+         'post': {
+            'thread': "{{ thread.id }}",
+         },
+         'editor_action': "{% url 'api:post-list' %}",
+         'post_submit': function(event, editor, response) {
+            response.json().then(function(data) {
+               var post_list = document.getElementsByClassName("posts_list")[0];
+               var num_rows = post_list.getElementsByTagName("tr").length;
+               var new_post = post_list.insertRow(num_rows - 1);
+
+               var post_info = document.createElement('th');
+               var post_content = new_post.insertCell(0);
+
+               post_content.insertAdjacentElement("beforebegin", post_info);
+
+               post_info.classList.add("posts_list_header");
+               post_content.classList.add("posts_list_data");
+
+               post_info.innerHTML = data.author ? data.author.username : "Anonymous";
+               post_content.innerHTML = data.content;
+            })
+         },
+      }
+
+      // mount editor on DOM
+      forum_js.load_editor('editor-area', props);
+   </script>
+{% endblock scripts %}
