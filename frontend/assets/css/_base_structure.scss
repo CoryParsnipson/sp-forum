@@ -7,6 +7,7 @@
 
 .header_content {
    width: $header-content-width;
+   min-width: $min-header-content-width;
    color: $accent-secondary3;
    padding: 0 $site-padding-right 0 $site-padding-left;
    margin: 0 auto;
@@ -47,6 +48,7 @@
 
 .main_content {
    width: $site-width;
+   min-width: $min-site-width;
    background: $background-primary;
    position: relative;
    left: 50%;

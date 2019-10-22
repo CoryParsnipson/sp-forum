@@ -14,9 +14,23 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-   <div id="new-thread-editor">
-      TODO: implement non-javascript version..., BIIIIITCH
-   </div>
+   <h1>[Title goes here]</h1>
+   <h3>OP: {{ thread.author|default:"Anonymous" }}</h3>
+
+   <table class="posts_list">
+      <tbody>
+         <tr>
+            <!-- TODO: replace this with new post meta information -->
+            <th class="posts_list_header">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
+            <td class="posts_list_data">
+               <div id="new-thread-editor">
+                  TODO: implement non-javascript version..., BIIIIITCH
+               </div>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+
 {% endblock content %}
 
 {% block scripts %}

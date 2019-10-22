@@ -384,7 +384,6 @@ export class Window extends React.Component {
 
       return (
          <React.Fragment>
-            <p>{this.state.has_focus ? 'FOCUSED' : 'NOT FOCUSED'}</p>
             <div
                ref={this.editor_win}
                className="editor-window"
