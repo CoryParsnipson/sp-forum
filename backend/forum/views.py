@@ -3,8 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
-from .models import User, Forum, Thread, Post
-from .serializers import UserSerializer, ForumSerializer, PostSerializer
+from .models import Forum, Post, Thread, User
+from .serializers import ForumSerializer, PostSerializer, ThreadSerializer, UserSerializer
 
 
 ###############################################################################
@@ -105,31 +105,6 @@ def _thread_detail(request, forum, thread):
 ###############################################################################
 # REST api views                                                              #
 ###############################################################################
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-
-    def get_permissions(self):
-        """
-        Instantiates and returns the list of permissions that this view requires.
-
-        Only Admin users can modify User objects, although anyone can
-        list and view them.
-        """
-        if (self.action == 'create'
-        or self.action == 'update'
-        or self.action == 'partial_update'
-        or self.action == 'destroy'):
-            permission_classes = [IsAdminUser]
-        else:
-            permission_classes = [AllowAny]
-
-        return [permission() for permission in permission_classes]
-
-
 class ForumViewSet(viewsets.ModelViewSet):
     """
     API endpoing for viewing and editing forums.
@@ -178,4 +153,50 @@ class PostViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated]
         else:
             permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
+
+
+class ThreadViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows threads to be viewed or edited
+    """
+    queryset = Thread.objects.all()
+    serializer_class = ThreadSerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns a list of permissions that this view requires.
+        """
+        if (self.action == 'update'
+        or self.action == 'partial_update'
+        or self.action == 'destroy'):
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+
+        Only Admin users can modify User objects, although anyone can
+        list and view them.
+        """
+        if (self.action == 'create'
+        or self.action == 'update'
+        or self.action == 'partial_update'
+        or self.action == 'destroy'):
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+
         return [permission() for permission in permission_classes]

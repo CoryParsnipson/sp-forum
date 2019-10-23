@@ -21,9 +21,10 @@ from django.urls import include, path
 import forum.views
 
 api_router = routers.DefaultRouter()
-api_router.register(r'users', forum.views.UserViewSet)
 api_router.register(r'forums', forum.views.ForumViewSet)
 api_router.register(r'posts', forum.views.PostViewSet)
+api_router.register(r'threads', forum.views.ThreadViewSet)
+api_router.register(r'users', forum.views.UserViewSet)
 
 urlpatterns = [
     path('control-panel/', admin.site.urls),

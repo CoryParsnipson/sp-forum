@@ -1,15 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Forum, Thread, Post
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'groups']
-        extra_kwargs = {
-            'url': {'view_name': 'api:user-detail'},
-        }
+from .models import Forum, Post, Thread, User
 
 
 class ForumSerializer(serializers.HyperlinkedModelSerializer):
@@ -30,4 +21,23 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {
             'url': {'view_name': 'api:post-detail'},
             'author': {'view_name': 'api:user-detail'},
+        }
+
+
+class ThreadSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Thread
+        fields = ['url', 'title', 'slug', 'author']
+        extra_kwargs = {
+            'url': {'view_name': 'api:thread-detail'},
+            'author': {'view_name': 'api:user-detail'},
+        }
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['url', 'username', 'email', 'groups']
+        extra_kwargs = {
+            'url': {'view_name': 'api:user-detail'},
         }
