@@ -5,9 +5,6 @@ from django.urls import reverse
 
 from forum.models import Forum, Post, Thread
 
-# TODO: create these unit tests
-#   test to check if making new threads is working
-
 class TestPosts(TestCase):
     """
     Regression suite to test out the forum post REST API
@@ -61,3 +58,57 @@ class TestPosts(TestCase):
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(len(Post.objects.all()), original_post_count + 1)
+
+
+class TestThreads(TestCase):
+    """
+    Regression suite to test out the forum thread REST API
+    """
+
+    def setUp(self):
+        # create client stand-in
+        self.client = Client()
+
+        # create forum and thread objects
+        self.forum = Forum.objects.create(title="Forum0", description="Automatically generated forum.")
+
+    def test_anonymous_user_post_api_latest(self):
+        """
+        Send a POST request to create a new Thread object
+        """
+        original_thread_count = len(Thread.objects.all())
+
+        post_data = urlencode({
+            'title': "Unit Test Thread (API latest)",
+            'forum': str(self.forum.id)
+        })
+
+        response = self.client.post(
+            path = reverse('api:thread-list'),
+            content_type = "application/x-www-form-urlencoded; charset=UTF-8",
+            data = post_data
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(len(Thread.objects.all()), original_thread_count + 1)
+
+    def test_anonymous_user_post_api_v1(self):
+        """
+        Send a POST request to create a new Thread object. Use the specific
+        'api-v1' namespace when resolving URL names.
+        """
+        original_thread_count = len(Thread.objects.all())
+
+        post_data = urlencode({
+            'title': "Unit Test Thread (API latest)",
+            'forum': str(self.forum.id)
+        })
+
+        response = self.client.post(
+            path = reverse('api-v1:thread-list'),
+            content_type = "application/x-www-form-urlencoded; charset=UTF-8",
+            data = post_data
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(len(Thread.objects.all()), original_thread_count + 1)

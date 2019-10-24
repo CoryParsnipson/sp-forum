@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
@@ -62,10 +63,12 @@ def thread_new_form(request, forum_slug):
 
 def thread_create(request, forum_slug):
     """
-    View to allow users to create a new thread.
+    
     """
-    forum = get_object_or_404(Forum, slug=forum_slug)
-    pass
+    raise NotImplementedError(
+        "TODO: Implement 'thread-create' endpoint (%s)"
+        % reverse('forum:thread-create', kwargs = { 'forum_slug': forum_slug })
+    )
 
 
 ###############################################################################
