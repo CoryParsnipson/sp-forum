@@ -29,7 +29,7 @@
 
 .new_thread_button {
    background: $accent_tertiary1;
-   border-radius: 2em;
+   border-radius: $border-radius-circle;
    display: block;
    padding: 15px 25px;
    position: absolute;
