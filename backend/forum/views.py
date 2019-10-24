@@ -153,6 +153,7 @@ class PostViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated]
         else:
             permission_classes = [AllowAny]
+
         return [permission() for permission in permission_classes]
 
 
@@ -170,6 +171,9 @@ class ThreadViewSet(viewsets.ModelViewSet):
         if (self.action == 'update'
         or self.action == 'partial_update'
         or self.action == 'destroy'):
+            # TODO: we actually want to enable Object level permissions here and
+            # let anonymous (and authenticated) users edit or delete their own
+            # posts but none of the other ones.
             permission_classes = [IsAdminUser]
         else:
             permission_classes = [AllowAny]

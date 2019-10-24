@@ -6,7 +6,7 @@ from .models import Forum, Post, Thread, User
 class ForumSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Forum
-        fields = ['url', 'title', 'slug', 'description']
+        fields = ['url', 'id', 'title', 'slug', 'description']
         extra_kwargs = {
             'url': {'view_name': 'api:forum-detail'},
         }
@@ -25,9 +25,11 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ThreadSerializer(serializers.HyperlinkedModelSerializer):
+    forum = serializers.SlugRelatedField(queryset=Forum.objects.all(), slug_field='id')
+
     class Meta:
         model = Thread
-        fields = ['url', 'title', 'slug', 'author']
+        fields = ['url', 'id', 'title', 'slug', 'author', 'forum']
         extra_kwargs = {
             'url': {'view_name': 'api:thread-detail'},
             'author': {'view_name': 'api:user-detail'},

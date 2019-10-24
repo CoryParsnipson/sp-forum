@@ -12,7 +12,7 @@ export class StatusBar extends React.Component {
       return (
          <form
             name={this.props.editor_id + "_form"}
-            class="editor-status"
+            className="editor-status"
             method="post"
             action={this.props.action}
             onSubmit={this.props.on_submit}

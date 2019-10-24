@@ -39,14 +39,48 @@
    {% render_bundle 'editor' %}
 
    <script>
+      // local page variables
+      var thread_exists = false;
+
       // set up editor variables
       props = {
          'post': {
             'thread': "{{ thread.id }}",
+            'forum': "{{ forum.id }}",
          },
          'editor_action': "{% url 'api:post-list' %}",
+         'pre_submit': function(event, editor) {
+            // capture dis bitch for AJAX promise
+            var editor = editor;
+
+            // TODO: get thread title
+            var thread_title = encodeURIComponent("[Title goes here???]");
+            var forum_id = encodeURIComponent(editor.props.post.forum);
+
+            // AJAX request to API to create new thread object
+            var create_thread_promise = fetch("{% url 'api:thread-list' %}", {
+               credentials: 'include',
+               method: 'post',
+               mode: 'same-origin',
+               headers: {
+                  "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                  "X-CSRFToken": forum_js.utils.getCookie('csrftoken')
+               },
+               // TODO: need to include author field here
+               body: "title=" + thread_title + "&forum=" + forum_id
+            })
+            .then(function(response) {
+               response.json().then(function(data) {
+                  // populate hidden form element in editor status bar with new thread id
+                  document.forms[editor.props.editor_id + "_form"].children.thread.value = data.id;
+               })
+            });
+
+            return create_thread_promise;
+         },
          'post_submit': function(event, editor, response) {
             response.json().then(function(data) {
+               // update the posts_list with the new post
                var post_list = document.getElementsByClassName("posts_list")[0];
                var num_rows = post_list.getElementsByTagName("tr").length;
                var new_post = post_list.insertRow(num_rows - 1);
