@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Paragraph } from './paragraph.js'
 import { Cursor } from './cursor.js'
+import { Paragraph } from './paragraph.js'
 
 export class Window extends React.Component {
    constructor(props) {
@@ -142,6 +142,7 @@ export class Window extends React.Component {
          return;
       }
 
+      // stop spacebar from scrolling window
       if (event.keyCode === 32) {
          event.preventDefault();
       }
@@ -386,6 +387,7 @@ export class Window extends React.Component {
          <React.Fragment>
             <div
                ref={this.editor_win}
+               id={this.props.window_id}
                className="editor-window"
                tabIndex="0"
                onBlur={this._onBlur}

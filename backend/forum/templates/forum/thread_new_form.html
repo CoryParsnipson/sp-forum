@@ -14,7 +14,8 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-   <h1>[Title goes here]</h1>
+   <!-- TODO: figure out how to style this -->
+   <div id="new-thread-editor-title-mountpoint">TODO: non-javascript title here?</div>
    <h3>OP: {{ thread.author|default:"Anonymous" }}</h3>
 
    <table class="posts_list">
@@ -39,22 +40,25 @@
    {% render_bundle 'editor' %}
 
    <script>
-      // local page variables
-      var thread_exists = false;
-
       // set up editor variables
       props = {
          'post': {
             'thread': "{{ thread.id }}",
             'forum': "{{ forum.id }}",
          },
+         'editor_mountpoint': 'new-thread-editor',
+         'titlebar_mountpoint': 'new-thread-editor-title-mountpoint',
+         'editor_type': forum_js.EditorType.FULL,
          'editor_action': "{% url 'api:post-list' %}",
          'pre_submit': function(event, editor) {
             // capture dis bitch for AJAX promise
             var editor = editor;
 
-            // TODO: get thread title
-            var thread_title = encodeURIComponent("[Title goes here???]");
+            // gather form data
+            var thread_title = encodeURIComponent(
+               document.getElementById(props.titlebar_mountpoint)
+                  .getElementsByClassName("content")[0].innerHTML
+            );
             var forum_id = encodeURIComponent(editor.props.post.forum);
 
             // AJAX request to API to create new thread object
@@ -95,11 +99,27 @@
 
                post_info.innerHTML = data.author ? data.author.username : "Anonymous";
                post_content.innerHTML = data.content;
+
+               function geturl(thread_id) {
+                  return "{% url 'api:thread-detail' pk=1337 %}".replace('1337', thread_id);
+               }
+
+               return fetch(geturl(data.thread));
             })
+            .then(function(response) {
+               // redirect to new thread page
+               response.json().then(function(data) {
+                  function geturl(thread_slug) {
+                     return "{% url 'forum:thread-detail-by-slug' thread_slug=1337 %}"
+                        .replace('1337', thread_slug);
+                  }
+                  window.location.replace(geturl(data.slug));
+               });
+            });
          },
       }
 
       // mount editor on DOM
-      forum_js.load_editor('new-thread-editor', props);
+      forum_js.load_editor(props);
    </script>
 {% endblock scripts %}

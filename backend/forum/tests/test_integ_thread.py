@@ -8,7 +8,9 @@ from django.urls import reverse
 
 from forum.models import Forum, Post, Thread
 
+EDITOR_AREA = "editor-area"
 NEW_THREAD_EDITOR_AREA = "new-thread-editor"
+NEW_THREAD_EDITOR_AREA_TITLEBAR = "new-thread-editor-title-mountpoint"
 POST_LIST_CLASS = "posts_list"
 
 class IntegThreadTests(StaticLiveServerTestCase):
@@ -26,9 +28,6 @@ class IntegThreadTests(StaticLiveServerTestCase):
         # data setup
         cls.forum = Forum.objects.create(title="Forum0", description="Automatically generated forum.")
 
-        # for actions that aren't directed towards a specific WebElement
-        cls.actions = ActionChains(cls.selenium)
-
     @classmethod
     def tearDownClass(cls):
         cls.selenium.quit()
@@ -40,6 +39,7 @@ class IntegThreadTests(StaticLiveServerTestCase):
         a new thread and post.
         """
 
+        TEST_TITLE_STRING = 'Cory, if you were on an LSD trip now, what would you most want to grab?'
         TEST_STRING = 'Are you guid-flender? Are you jewish-fluidly? Fluid jewish??'
 
         self.selenium.get('%s%s' % (
@@ -49,12 +49,19 @@ class IntegThreadTests(StaticLiveServerTestCase):
             })
         ))
 
+        # type into title
+        titlebar_element = self.selenium.find_element_by_css_selector(
+            "#%s p.content" % (NEW_THREAD_EDITOR_AREA_TITLEBAR)
+        );
+        titlebar_element.click();
+        ActionChains(self.selenium).send_keys(TEST_TITLE_STRING).perform()
+
         # type into editor
         editor_element = self.selenium.find_element_by_css_selector(
             "#%s p.content" % (NEW_THREAD_EDITOR_AREA)
         )
         editor_element.click()
-        self.actions.send_keys(TEST_STRING).perform()
+        ActionChains(self.selenium).send_keys(TEST_STRING).perform()
 
         # submit post
         editor_submit = self.selenium.find_element_by_css_selector(
@@ -67,9 +74,15 @@ class IntegThreadTests(StaticLiveServerTestCase):
 
         # detect if thread id has been set by successful thread API call
         thread_id_element = self.selenium.find_element_by_css_selector(
-            "#%s input[type=hidden][name=thread]" % (NEW_THREAD_EDITOR_AREA)
+            "#%s input[type=hidden][name=thread]" % (EDITOR_AREA)
         )
         self.assertTrue(bool(thread_id_element.get_attribute("value")))
+
+        # detect if title was successfully added
+        new_title = self.selenium.find_element_by_css_selector(
+            "div.main_content h1"
+        )
+        self.assertEqual(TEST_TITLE_STRING, new_title.text)
 
         # detect if new post was successfully added
         new_post = self.selenium.find_element_by_css_selector(

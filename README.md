@@ -3,9 +3,10 @@ Experiments in online communication
 
 ## TODO
 
+* need to fix bug where cursor pre-maturely goes onto a new line when adding characters close to the right margin of a post.
+
 ### Goals necessary for deployment demo:
 
-* Thread creation flow
 * Secure REST API endpoints
 * Captcha support
 * Rate limit posting?

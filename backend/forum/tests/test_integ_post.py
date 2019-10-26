@@ -9,7 +9,6 @@ from django.urls import reverse
 from forum.models import Forum, Post, Thread
 
 EDITOR_AREA = "editor-area"
-NEW_THREAD_EDITOR_AREA = "new-thread-editor"
 POST_LIST_CLASS = "posts_list"
 
 class IntegPostTests(StaticLiveServerTestCase):
@@ -27,9 +26,6 @@ class IntegPostTests(StaticLiveServerTestCase):
         # data setup
         cls.forum = Forum.objects.create(title="Forum0", description="Automatically generated forum.")
         cls.thread = Thread.objects.create(title="Thread0", author=None, forum=cls.forum)
-
-        # for actions that aren't directed towards a specific WebElement
-        cls.actions = ActionChains(cls.selenium)
 
     @classmethod
     def tearDownClass(cls):
@@ -56,7 +52,7 @@ class IntegPostTests(StaticLiveServerTestCase):
             "#%s p.content" % (EDITOR_AREA)
         )
         editor_element.click()
-        self.actions.send_keys(TEST_STRING).perform()
+        ActionChains(self.selenium).send_keys(TEST_STRING).perform()
 
         # submit post
         editor_submit = self.selenium.find_element_by_css_selector(

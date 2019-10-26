@@ -3,8 +3,14 @@ import ReactDOM from 'react-dom'
 
 import * as utils from './utils.js'
 
-import { Window } from './window.js'
 import { StatusBar } from './status_bar.js'
+import { Titlebar } from './titlebar.js'
+import { Window } from './window.js'
+
+export var EditorType = {
+   MINIMAL: 0,
+   FULL: 1,
+};
 
 export class Editor extends React.Component {
    constructor(props) {
@@ -33,7 +39,7 @@ export class Editor extends React.Component {
       .then(function(response) {
          // load up status bar input value with innerHTML of editor window
          var post_contents = document.getElementById(editor.props.editor_id)
-            .getElementsByClassName("editor-window-contents")[0];
+            .querySelectorAll('#editor-window-main .editor-window-contents')[0];
 
          var form_post_holder = document.forms[editor.props.editor_id + "_form"].children.content;
          form_post_holder.value = encodeURIComponent(post_contents.innerHTML);
@@ -68,11 +74,33 @@ export class Editor extends React.Component {
    }
 
    render() {
+      const needs_titlebar = this.props.editor_type == EditorType.FULL;
+      const default_titlebar_mountpoint = (this.props.editor_type == EditorType.FULL && !this.props.titlebar_id);
+
+      var titlebar = <Titlebar />;
+
+      // ReactDOM.createPortal does not clear target DOM mountpoint
+      // like ReactDOM.render, so let's do that manually
+      if (needs_titlebar && !default_titlebar_mountpoint) {
+         const portal_target = document.getElementById(this.props.titlebar_id)
+         while (portal_target.firstChild) {
+            portal_target.removeChild(portal_target.firstChild);
+         }
+
+         titlebar = ReactDOM.createPortal(
+            titlebar,
+            document.getElementById(this.props.titlebar_id)
+         );
+      }
+
       return (
          <React.Fragment>
-            <Window ref={this.window} />
+            {needs_titlebar ? titlebar : null}
+            <Window ref={this.window} window_id="editor-window-main" />
             <StatusBar
                editor_id={this.props.editor_id}
+               titlebar_id={this.props.titlebar_id}
+               editor_type={this.props.editor_type}
                action={this.props.action}
                post={this.props.post}
                on_submit={this._submit}

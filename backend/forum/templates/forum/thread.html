@@ -52,6 +52,7 @@
          'post': {
             'thread': "{{ thread.id }}",
          },
+         'editor_mountpoint': 'editor-area',
          'editor_action': "{% url 'api:post-list' %}",
          'post_submit': function(event, editor, response) {
             response.json().then(function(data) {
@@ -74,6 +75,6 @@
       }
 
       // mount editor on DOM
-      forum_js.load_editor('editor-area', props);
+      forum_js.load_editor(props);
    </script>
 {% endblock scripts %}

@@ -19,6 +19,13 @@ div.editor-window:focus {
    border: 2px dashed transparent;
 }
 
+div#editor-window-title.editor-window {
+   margin-bottom: 0.5em;
+}
+
+div#editor-window-main.editor-window {
+}
+
 div.editor-cursor {
    width: 0;
    height: 0;
