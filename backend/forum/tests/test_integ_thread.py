@@ -70,7 +70,7 @@ class IntegThreadTests(StaticLiveServerTestCase):
         editor_submit.click()
 
         # need to wait until AJAX request comes back
-        time.sleep(0.1)
+        time.sleep(0.5)
 
         # detect if thread id has been set by successful thread API call
         thread_id_element = self.selenium.find_element_by_css_selector(

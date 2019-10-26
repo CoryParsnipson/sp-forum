@@ -61,7 +61,7 @@ class IntegPostTests(StaticLiveServerTestCase):
         editor_submit.click()
 
         # need to wait until AJAX request comes back
-        time.sleep(0.1)
+        time.sleep(0.5)
 
         new_post = self.selenium.find_element_by_css_selector(
             "table.%s tr:nth-last-child(2)" % (POST_LIST_CLASS)
