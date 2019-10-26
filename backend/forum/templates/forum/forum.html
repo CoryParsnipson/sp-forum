@@ -30,7 +30,7 @@
       <tbody>
          {% for thread in threads %}
             <tr>
-               <td class="threads_list_data"><a href="{% url 'forum:thread-detail-by-slug' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></td>
+               <td class="threads_list_data"><a href="{% url 'forum:thread-detail-by-slug' thread_slug=thread.slug %}">{{ thread.title }}</a></td>
                <td class="threads_list_data">{{ thread.author.username|default:"Anonymous" }}</td>
             </tr>
          {% empty %}

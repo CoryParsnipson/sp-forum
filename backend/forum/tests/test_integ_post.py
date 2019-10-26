@@ -47,7 +47,6 @@ class IntegPostTests(StaticLiveServerTestCase):
         self.selenium.get('%s%s' % (
             self.live_server_url,
             reverse('forum:thread-detail-by-id', kwargs = {
-                'forum_slug': self.forum.slug,
                 'id': self.thread.id
             })
         ))

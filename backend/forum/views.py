@@ -50,6 +50,36 @@ def _forum_detail(request, forum):
 
 
 ###############################################################################
+# thread detail                                                               #
+###############################################################################
+def thread_detail_by_id(request, id):
+    """
+    View the contents of a specific thread.
+    """
+    thread = get_object_or_404(Thread, pk=id)
+    return _thread_detail(request, thread.forum, thread)
+    
+
+def thread_detail_by_slug(request, thread_slug):
+    """
+    View the contents of a specific thread. (accessed by slug value)
+    """
+    thread = get_object_or_404(Thread, slug=thread_slug)
+    return _thread_detail(request, thread.forum, thread)
+
+
+def _thread_detail(request, forum, thread):
+    """
+    View the contents of a specific thread.
+    """
+    context = {}
+    context['thread'] = thread
+    context['forum'] = forum
+    context['posts'] = Post.objects.filter(thread=thread)
+    return render(request, 'forum/thread.html', context)
+
+
+###############################################################################
 # thread create                                                               #
 ###############################################################################
 def thread_new_form(request, forum_slug):
@@ -69,40 +99,6 @@ def thread_create(request, forum_slug):
         "TODO: Implement 'thread-create' endpoint (%s)"
         % reverse('forum:thread-create', kwargs = { 'forum_slug': forum_slug })
     )
-
-
-###############################################################################
-# thread detail                                                               #
-###############################################################################
-def thread_detail_by_id(request, forum_slug, id):
-    """
-    View the contents of a specific thread.
-    """
-    thread = get_object_or_404(Thread, pk=id)
-    forum = get_object_or_404(Forum, slug=thread.forum.slug)
-
-    assert(forum.slug == forum_slug)
-    return _thread_detail(request, forum, thread)
-    
-
-def thread_detail_by_slug(request, forum_slug, thread_slug):
-    """
-    View the contents of a specific thread. (accessed by slug value)
-    """
-    thread = get_object_or_404(Thread, slug=thread_slug)
-    forum = get_object_or_404(Forum, slug=forum_slug)
-    return _thread_detail(request, forum, thread)
-
-
-def _thread_detail(request, forum, thread):
-    """
-    View the contents of a specific thread.
-    """
-    context = {}
-    context['thread'] = thread
-    context['forum'] = forum
-    context['posts'] = Post.objects.filter(thread=thread)
-    return render(request, 'forum/thread.html', context)
 
 
 ###############################################################################
