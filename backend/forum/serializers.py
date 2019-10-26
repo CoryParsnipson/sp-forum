@@ -29,7 +29,7 @@ class ThreadSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Thread
-        fields = ['url', 'id', 'title', 'slug', 'author', 'forum']
+        fields = ['url', 'id', 'title', 'slug', 'author', 'published', 'forum']
         extra_kwargs = {
             'url': {'view_name': 'api:thread-detail'},
             'author': {'view_name': 'api:user-detail'},

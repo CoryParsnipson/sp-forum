@@ -45,7 +45,7 @@ def _forum_detail(request, forum):
     """
     context = {}
     context['forum'] = forum
-    context['threads'] = Thread.objects.filter(forum=forum)
+    context['threads'] = Thread.objects.filter(forum=forum).order_by("-published")
     return render(request, 'forum/forum.html', context)
 
 
