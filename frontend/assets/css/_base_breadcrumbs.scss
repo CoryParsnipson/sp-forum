@@ -38,6 +38,12 @@
 }
 
 .breadcrumb-container li a {
+   max-width: 300px;
+   display: block;
+   white-space: nowrap;
+   overflow: hidden;
+   float: right;
+   text-overflow: ellipsis;
    text-decoration: none;
 }
 
