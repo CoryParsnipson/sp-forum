@@ -1,0 +1,203 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap);
+.breadcrumb-container {
+  min-height: 1em;
+  float: left;
+  list-style-type: none;
+  background: #FFB463;
+  border-radius: 5px;
+  overflow: auto;
+  padding: 0 30px;
+  margin-bottom: 20px; }
+
+.breadcrumb-container li {
+  display: list-item;
+  float: left;
+  padding: 5px 10px; }
+
+.breadcrumb-container li:before {
+  width: 0.33em;
+  height: 0.33em;
+  content: "";
+  display: inline-block;
+  border-right: 3px solid black;
+  border-bottom: 3px solid black;
+  transform: rotate(-45deg) translate(0.115em, 0);
+  margin-left: -0.25em;
+  margin-right: 1em; }
+
+.breadcrumb-container li:first-child:before {
+  display: none; }
+
+.breadcrumb-container li a {
+  max-width: 300px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  float: right;
+  text-overflow: ellipsis;
+  text-decoration: none; }
+
+.breadcrumb-container li a:visited {
+  color: inherit; }
+
+.breadcrumb-container li a:hover {
+  text-decoration: underline;
+  text-decoration-color: #E37A09; }
+
+.breadcrumb-container li a.no-click {
+  cursor: default; }
+
+.breadcrumb-container li a.no-click:hover {
+  text-decoration: none; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+html, body {
+  width: 100%;
+  font-family: "Source Sans Pro", "Sans Serif";
+  font-size: 16pt; }
+
+hr {
+  color: #EFEFEF;
+  background-color: #EFEFEF;
+  border: 1px solid #DDDDDD;
+  margin: 1em 0; }
+
+p.content {
+  min-height: 1em;
+  font-size: 16pt;
+  font-family: 'Source Sans Pro', sans-serif;
+  word-break: break-word;
+  margin: 0;
+  padding: 0; }
+
+/* this is to make empty lines the same height as non empty lines */
+p.content:after {
+  content: '\200B';
+  min-height: 1em; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+.forums_list {
+  width: 100%; }
+  .forums_list .forums_list_header {
+    color: #FDFDFD;
+    background: #99BEDE;
+    text-align: left;
+    padding: 15px; }
+  .forums_list .forums_list_data {
+    padding: 15px; }
+
+.forums_list tr:nth-child(even) {
+  background: #DDDDDD; }
+
+.posts_list {
+  width: 100%;
+  margin: 2em 0; }
+  .posts_list .posts_list_header {
+    width: 200px;
+    background: #EFEFEF;
+    border-bottom: 1px solid #DDDDDD;
+    text-align: center;
+    padding: 15px 25px;
+    vertical-align: top; }
+  .posts_list .posts_list_data {
+    border-bottom: 1px solid #DDDDDD;
+    padding: 15px 25px; }
+
+.posts_list tr:last-of-type .posts_list_header,
+.posts_list tr:last-of-type .posts_list_data {
+  border: 0; }
+
+body {
+  background: #FDFDFD; }
+
+.header {
+  width: 100%;
+  background: #688EB0; }
+
+.header_content {
+  width: 60%;
+  min-width: 800px;
+  color: #FDFDFD;
+  padding: 0 5px 0 5px;
+  margin: 0 auto; }
+
+.second_header {
+  width: 100%;
+  min-height: 40px;
+  background: #99BEDE; }
+
+.second_header_content {
+  width: 60%;
+  color: #EFEFEF;
+  padding: 5px 5px 5px 5px;
+  margin: 0 auto; }
+
+.backing {
+  width: 100%;
+  height: 350px;
+  display: block;
+  background: #EFEFEF;
+  border-bottom: 1px solid #DDDDDD;
+  position: absolute; }
+
+.pre_main_content {
+  width: 100%;
+  overflow: auto; }
+
+.main_content {
+  width: 50%;
+  min-width: 700px;
+  background: #FDFDFD;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-left: 1px solid #DDDDDD;
+  border-right: 1px solid #DDDDDD;
+  padding: 15px; }
+
+.footer {
+  width: 100%;
+  min-height: 600px;
+  background: #688EB0; }
+
+.threads_list {
+  width: 100%;
+  margin: 1em 0; }
+  .threads_list .threads_list_header {
+    color: #FDFDFD;
+    background: #99BEDE;
+    text-align: left;
+    padding: 15px;
+    width: 100%; }
+  .threads_list .threads_list_data {
+    min-width: 200px;
+    padding: 15px; }
+
+.threads_list tr:nth-child(even) {
+  background: #DDDDDD; }
+
+.pre_threads_list {
+  position: relative; }
+
+.new_thread_button {
+  background: #FFB463;
+  border-radius: 2em;
+  display: block;
+  padding: 15px 25px;
+  position: absolute;
+  right: 0;
+  bottom: 0; }
+
+.new_thread_button::before {
+  content: "+";
+  margin-right: 0.75em; }
+
+.new_thread_button:hover {
+  background: #E37A09; }
+

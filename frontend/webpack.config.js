@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = {
+module.exports = (env, argv) => ({
    mode: "development",
    context: __dirname,
    entry: {
@@ -12,14 +12,14 @@ module.exports = {
    },
    output: {
       path: path.resolve('../backend/assets/webpack_bundles'),
-      filename: "[name]-[hash].js",
+      filename: argv.mode == "development" ? "[name]-[hash].dev.js" : "[name].js",
       libraryTarget: 'var',
       library: 'forum_js'
    },
    plugins: [
       new BundleTracker({filename: './webpack-stats.json'}),
       new MiniCssExtractPlugin({
-         filename: '[name]-[hash].css',
+         filename: argv.mode == "development" ? "[name]-[hash].dev.css" : "[name].css",
       }),
    ],
    module: {
@@ -80,4 +80,4 @@ module.exports = {
    resolve: {
       extensions: ['*', '.js', '.jsx', '.css', '.scss']
    }
-}
+})

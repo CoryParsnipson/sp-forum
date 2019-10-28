@@ -1,6 +1,6 @@
 # project specific
 *.keyring
-webpack_bundles/
+**/webpack_bundles/*.dev.*
 
 # virtualenv
 venv
