@@ -93,9 +93,6 @@ elif os.environ['SERVER_MODE'] == "production":
         'default': dj_database_url.config(),
     }
 
-    # enable connection pooling
-    DATABASES['default']['ENGINE'] = 'django_postgrespool'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
