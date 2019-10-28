@@ -81,7 +81,7 @@ Experiments in online communication
 4. Create a local file called dev.keyring in the /backend directory that contains the following variables:
    
    ```
-   export BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
+   alias deploy="git subtree push --prefix=backend heroku  master"
 
    export SECRET_KEY='<django_secret_key>'
    export SERVER_MODE='development'
@@ -94,8 +94,6 @@ Experiments in online communication
 2. Create a local file called prod.keyring in the /backend directory that contains the following variables:
    
    ```
-   export BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
-
    export SECRET_KEY='<django_secret_key>'
    export SERVER_MODE='production'
    export ALLOWED_HOSTS='localhost .domainname.com' # this is converted to a list, separate entries with spaces
