@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --progress --colors --mode development",
-    "build_prod": "webpack --progress --colors",
+    "build_prod": "webpack --progress --colors --mode production",
     "watch": "webpack --watch --mode development"
   },
   "author": "Cory Parsnipson",
