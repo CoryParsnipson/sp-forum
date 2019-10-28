@@ -7,6 +7,7 @@ Experiments in online communication
 
 ### Goals necessary for deployment demo:
 
+* Support for static files (images, videos, etc) - use Whitenoise with Amazon Cloudfront as CDN?
 * Secure REST API endpoints
 * Captcha support
 * Rate limit posting?
@@ -21,8 +22,6 @@ Experiments in online communication
 
 * Beef up user authentication
    * Make it possible for users to "reclaim" posts? (automatically through finding old posts in user storage and manually through trip codes?)
-
-* Support for static files (images, videos, etc) - use WhiteNoise?
 
 * Implement text selection (deletion, overwriting, click+drag)
 * Implement copy and paste
