@@ -77,3 +77,49 @@ Experiments in online communication
    ```
    npm install
    ```
+
+4. Create a local file called dev.keyring in the /backend directory that contains the following variables:
+   
+   ```
+   export BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
+
+   export SECRET_KEY='<django_secret_key>'
+   export SERVER_MODE='development'
+   ```
+
+## Setting up the prod environment
+
+1. Do all the steps for the dev environment
+
+2. Create a local file called prod.keyring in the /backend directory that contains the following variables:
+   
+   ```
+   export BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
+
+   export SECRET_KEY='<django_secret_key>'
+   export SERVER_MODE='production'
+   export ALLOWED_HOSTS='localhost .domainname.com' # this is converted to a list, separate entries with spaces
+   ```
+
+3. Add heroku origin to the repo
+
+   ```
+   heroku git:remote -a <herokuapp>
+   ```
+
+   You can also rename the heroku origin to something else if there are multiple.
+   E.g. heroku-dev heroku-staging heroku-prod
+
+   ```
+   git remote rename heroku heroku-dev
+   ```
+
+4. Since the django app is not in the root directory, heroku is unable to automatically recognize it. A
+   solution to this is to use git subtree to push only the /backend directory to the heroku app.
+
+   NOTE: that `git subtree` must be run from the root directory of this repo.
+
+   ```
+   sudo dnf install git-subtree
+   git subtree push --prefix backend heroku master
+   ```
