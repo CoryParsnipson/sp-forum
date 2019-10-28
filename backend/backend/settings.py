@@ -23,9 +23,9 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.environ['SERVER_MODE'] == "development" else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS'].split(" ") if 'ALLOWED_HOSTS' in os.environ else []
 
 
 # Application definition
