@@ -1,6 +1,7 @@
 # project specific
 *.keyring
 **/webpack_bundles/*.dev.*
+backend/assets
 
 # virtualenv
 venv
@@ -22,9 +23,6 @@ venv.bak/
 
 # Django
 db.sqlite3
-
-# webpack
-webpack-stats.json
 
 # Logs
 logs

@@ -17,7 +17,7 @@ module.exports = (env, argv) => ({
       library: 'forum_js'
    },
    plugins: [
-      new BundleTracker({filename: './webpack-stats.json'}),
+      new BundleTracker({filename: '../backend/webpack_bundles/webpack-stats.json'}),
       new MiniCssExtractPlugin({
          filename: argv.mode == "development" ? "[name]-[hash].dev.css" : "[name].css",
       }),
