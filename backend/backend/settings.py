@@ -136,7 +136,7 @@ STATIC_ROOT = "/assets" if os.environ["SERVER_MODE"] == "production" else os.pat
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(ROOT_DIR, 'frontend', 'assets', 'webpack_bundles'),
+    os.path.join(BASE_DIR, 'webpack_bundles'),
 )
 
 

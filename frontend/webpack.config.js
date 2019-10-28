@@ -11,7 +11,7 @@ module.exports = (env, argv) => ({
       editor: './src/index_editor.js',
    },
    output: {
-      path: path.resolve('assets/webpack_bundles'),
+      path: path.resolve('../backend/webpack_bundles'),
       filename: argv.mode == "development" ? "[name]-[hash].dev.js" : "[name].js",
       libraryTarget: 'var',
       library: 'forum_js'
