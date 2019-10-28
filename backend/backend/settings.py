@@ -14,10 +14,7 @@ import os
 import dj_database_url # heroku postgres adapter
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#ROOT_DIR = os.path.dirname(BASE_DIR)
-
-BASE_DIR = os.environ["BASE_DIR"]
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
