@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.utils import timezone
 
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
@@ -45,7 +46,7 @@ def _forum_detail(request, forum):
     """
     context = {}
     context['forum'] = forum
-    context['threads'] = Thread.objects.filter(forum=forum).order_by("-published")
+    context['threads'] = Thread.objects.filter(forum=forum).order_by("-last_updated")
     return render(request, 'forum/forum.html', context)
 
 
@@ -154,6 +155,18 @@ class PostViewSet(viewsets.ModelViewSet):
             permission_classes = [AllowAny]
 
         return [permission() for permission in permission_classes]
+
+    def create(self, request, *args, **kwargs):
+        """
+        Upon creating a new post, do the default action, but we also
+        need to update the `last_updated` field of the Thread object
+        this belongs to.
+        """
+        response = super().create(request, *args, **kwargs)
+        post = Post.objects.get(pk = response.data["id"])
+        post.thread.last_updated = timezone.localtime()
+        post.thread.save()
+        return response
 
 
 class ThreadViewSet(viewsets.ModelViewSet):

@@ -38,6 +38,7 @@ class Thread(models.Model):
     # TODO: what should behavior be when deleting a forum?
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE, blank=False, null=False)
     published = models.DateTimeField(auto_now_add=True, verbose_name="date published")
+    last_updated = models.DateTimeField(auto_now_add=True, verbose_name="date updated")
 
     def save(self, *args, **kwargs):
         if not self.slug:
