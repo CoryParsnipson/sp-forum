@@ -1,4 +1,5 @@
 import time
+import json
 
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -23,9 +24,31 @@ class IntegPostTests(StaticLiveServerTestCase):
         cls.selenium = WebDriver(executable_path='vendor/chromedriver')
         cls.selenium.implicitly_wait(0.5)
 
+        thread_title_json = {
+            "object": "value",
+            "document": {
+                "object": "document",
+                "data": {},
+                "nodes": [
+                    {
+                        "object": "block",
+                        "type": "paragraph",
+                        "data": {},
+                        "nodes": [
+                            {
+                                "object": "text",
+                                "text": "Thread0",
+                                "marks": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
         # data setup
         cls.forum = Forum.objects.create(title="Forum0", description="Automatically generated forum.")
-        cls.thread = Thread.objects.create(title="Thread0", author=None, forum=cls.forum)
+        cls.thread = Thread.objects.create(title=json.dumps(thread_title_json), author=None, forum=cls.forum)
 
         # Make dummy thread OP to keep thread invariant (every thread must have at least 1 post)
         p = Post(content="This is the OP.", thread = cls.thread);

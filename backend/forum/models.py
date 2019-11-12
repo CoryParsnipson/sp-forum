@@ -1,6 +1,7 @@
-from django.db import models
+import json
 
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 import forum.lib as lib
 
@@ -42,7 +43,10 @@ class Thread(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            lib.unique_slugify(self, self.title)
+            # need to parse title into JSON (because slatejs output is JSON)
+            # yes, not very clean, I know...
+            title_json = json.loads(self.title)
+            lib.unique_slugify(self, title_json['document']['nodes'][0]['nodes'][0]['text'])
         super(Thread, self).save(*args, **kwargs)
 
     def __str__(self):

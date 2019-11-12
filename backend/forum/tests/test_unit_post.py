@@ -1,3 +1,4 @@
+import json
 from urllib.parse import urlencode
 
 from django.test import Client, TestCase
@@ -14,9 +15,32 @@ class TestPosts(TestCase):
         # create client stand-in
         self.client = Client()
 
+        # hashtag, this is fucking dumb
+        thread_title_json = {
+            "object": "value",
+            "document": {
+                "object": "document",
+                "data": {},
+                "nodes": [
+                    {
+                        "object": "block",
+                        "type": "paragraph",
+                        "data": {},
+                        "nodes": [
+                            {
+                                "object": "text",
+                                "text": "Thread0",
+                                "marks": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
         # create forum and thread objects
         self.forum = Forum.objects.create(title="Forum0", description="Automatically generated forum.")
-        self.thread = Thread.objects.create(title="Thread0", author=None, forum=self.forum)
+        self.thread = Thread.objects.create(title=json.dumps(thread_title_json), author=None, forum=self.forum)
 
     def test_anonymous_user_post_api_latest(self):
         """
@@ -78,8 +102,31 @@ class TestThreads(TestCase):
         """
         original_thread_count = len(Thread.objects.all())
 
+        # hashtag, this is fucking dumb
+        thread_title_json = {
+            "object": "value",
+            "document": {
+                "object": "document",
+                "data": {},
+                "nodes": [
+                    {
+                        "object": "block",
+                        "type": "paragraph",
+                        "data": {},
+                        "nodes": [
+                            {
+                                "object": "text",
+                                "text": "Unit Test Thread (API latest)",
+                                "marks": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
         post_data = urlencode({
-            'title': "Unit Test Thread (API latest)",
+            'title': json.dumps(thread_title_json),
             'forum': str(self.forum.id),
             'content': "This is the OP body.",
         })
@@ -100,8 +147,31 @@ class TestThreads(TestCase):
         """
         original_thread_count = len(Thread.objects.all())
 
+        # hashtag, this is fucking dumb
+        thread_title_json = {
+            "object": "value",
+            "document": {
+                "object": "document",
+                "data": {},
+                "nodes": [
+                    {
+                        "object": "block",
+                        "type": "paragraph",
+                        "data": {},
+                        "nodes": [
+                            {
+                                "object": "text",
+                                "text": "Unit Test Thread (API v1)",
+                                "marks": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
         post_data = urlencode({
-            'title': "Unit Test Thread (API latest)",
+            'title': json.dumps(thread_title_json),
             'forum': str(self.forum.id),
             'content': "This is the OP body.",
         })
