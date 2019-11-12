@@ -46,18 +46,22 @@
          placeholder: "Enter a thread title",
          onKeyDown: function(event, editor, next) {
             // prevent users (desktop and Android Chrome) from pressing enter in this editor
-            if (event.keyCode == '13') {
+            if (event.keyCode === 13) {
                event.preventDefault();
                event.stopPropagation();
             }
 
+            // 8 is backspace and 46 is delete
+            const delta = (event.keyCode === 8 || event.keyCode === 46 ? -1 : 1);
+            const block0_len = editor.state.block0_len ? delta + editor.state.block0_len : Math.max(0, delta);
+
             // drop input if max length is reached
-            const block0_len = editor.state.block0_len ? editor.state.block0_len + 1: 1;
             if (block0_len > 200) {
                event.preventDefault();
                event.stopPropagation();
+            } else {
+               editor.setState({ block0_len });
             }
-            editor.setState({ block0_len });
          },
       };
 
