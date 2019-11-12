@@ -44,7 +44,21 @@
          has_status_bar: false,
          id: 'title-editor',
          placeholder: "Enter a thread title",
-         // TODO: need to prevent this editor from making more than 1 block
+         onKeyDown: function(event, editor, next) {
+            // prevent users (desktop and Android Chrome) from pressing enter in this editor
+            if (event.keyCode == '13') {
+               event.preventDefault();
+               event.stopPropagation();
+            }
+
+            // drop input if max length is reached
+            const block0_len = editor.state.block0_len ? editor.state.block0_len + 1: 1;
+            if (block0_len > 200) {
+               event.preventDefault();
+               event.stopPropagation();
+            }
+            editor.setState({ block0_len });
+         },
       };
 
       // mount title editor on DOM
