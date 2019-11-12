@@ -192,6 +192,22 @@ class ThreadViewSet(viewsets.ModelViewSet):
 
         return [permission() for permission in permission_classes]
 
+    def create(self, request, *args, **kwargs):
+        """
+        Make it so that you can't create a thread without supply the contents
+        of the first post as well.
+        """
+        response = super().create(request, *args, **kwargs)
+
+        # get this thread object
+        thread = Thread.objects.get(pk = response.data['id'])
+
+        # make a new post
+        post = Post(content=request.data['content'], thread=thread)
+        post.save()
+
+        return response
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """

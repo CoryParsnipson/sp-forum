@@ -15,7 +15,7 @@
 
 {% block content %}
    <!-- TODO: figure out how to style this -->
-   <div id="new-thread-editor-title-mountpoint">TODO: non-javascript title here?</div>
+   <div id="title-editor">TODO: non-javascript title here?</div>
    <h3>OP: {{ thread.author|default:"Anonymous" }}</h3>
 
    <table class="posts_list">
@@ -24,7 +24,7 @@
             <!-- TODO: replace this with new post meta information -->
             <th class="posts_list_header">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
             <td class="posts_list_data">
-               <div id="new-thread-editor">
+               <div id="post-editor">
                   TODO: implement non-javascript version..., BIIIIITCH
                </div>
             </td>
@@ -36,90 +36,62 @@
 
 {% block scripts %}
    {% load render_bundle from webpack_loader %}
-   {% render_bundle 'base' 'css' %}
-   {% render_bundle 'editor' %}
+   {% render_bundle 'main' %}
 
    <script>
-      // set up editor variables
-      props = {
-         'post': {
-            'thread': "{{ thread.id }}",
-            'forum': "{{ forum.id }}",
+      // set up editor variables for title editor (we will not be submitting this)
+      title_props = {
+         has_status_bar: false,
+         id: 'title-editor',
+         placeholder: "Enter a thread title",
+         // TODO: need to prevent this editor from making more than 1 block
+         // TODO: need to modify slugify to make slug from text not raw JSON string
+      };
+
+      // mount title editor on DOM
+      const title_editor = forum_js.load_editor(title_props);
+
+      // set up editor variables for post editor
+      main_editor_props = {
+         action: "{% url 'api:thread-list' %}",
+         id: 'post-editor',
+         onSubmit: function(event, editor, response) {
+            // data to send through POST
+            const post_data = {
+               title: JSON.stringify(title_editor.state.value.toJSON()),
+               forum: editor.props.post.forum,
+               content: JSON.stringify(editor.state.value.toJSON()),
+            };
+
+            return post_data;
          },
-         'editor_mountpoint': 'new-thread-editor',
-         'titlebar_mountpoint': 'new-thread-editor-title-mountpoint',
-         'editor_type': forum_js.EditorType.FULL,
-         'editor_action': "{% url 'api:post-list' %}",
-         'pre_submit': function(event, editor) {
-            // capture dis bitch for AJAX promise
-            var editor = editor;
+         onSubmitPost: function(event, editor, response) {
+            function get_thread_details(thread_id) {
+               return "{% url 'api:thread-detail' pk=1337 %}".replace('1337', thread_id);
+            }
 
-            // gather form data
-            var thread_title = encodeURIComponent(
-               document.getElementById(props.titlebar_mountpoint)
-                  .getElementsByClassName("content")[0].innerHTML
-            );
-            var forum_id = encodeURIComponent(editor.props.post.forum);
+            function get_thread_page(thread_slug) {
+               return "{% url 'forum:thread-detail-by-slug' thread_slug=1337 %}"
+                  .replace('1337', thread_slug);
+            }
 
-            // AJAX request to API to create new thread object
-            var create_thread_promise = fetch("{% url 'api:thread-list' %}", {
-               credentials: 'include',
-               method: 'post',
-               mode: 'same-origin',
-               headers: {
-                  "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-                  "X-CSRFToken": forum_js.utils.getCookie('csrftoken')
-               },
-               // TODO: need to include author field here
-               body: "title=" + thread_title + "&forum=" + forum_id
-            })
-            .then(function(response) {
-               response.json().then(function(data) {
-                  // populate hidden form element in editor status bar with new thread id
-                  document.forms[editor.props.editor_id + "_form"].children.thread.value = data.id;
-               })
-            });
-
-            return create_thread_promise;
-         },
-         'post_submit': function(event, editor, response) {
             response.json().then(function(data) {
-               // update the posts_list with the new post
-               var post_list = document.getElementsByClassName("posts_list")[0];
-               var num_rows = post_list.getElementsByTagName("tr").length;
-               var new_post = post_list.insertRow(num_rows - 1);
-
-               var post_info = document.createElement('th');
-               var post_content = new_post.insertCell(0);
-
-               post_content.insertAdjacentElement("beforebegin", post_info);
-
-               post_info.classList.add("posts_list_header");
-               post_content.classList.add("posts_list_data");
-
-               post_info.innerHTML = data.author ? data.author.username : "Anonymous";
-               post_content.innerHTML = data.content;
-
-               function geturl(thread_id) {
-                  return "{% url 'api:thread-detail' pk=1337 %}".replace('1337', thread_id);
-               }
-
-               return fetch(geturl(data.thread));
+               return fetch(get_thread_details(data.id));
             })
             .then(function(response) {
-               // redirect to new thread page
                response.json().then(function(data) {
-                  function geturl(thread_slug) {
-                     return "{% url 'forum:thread-detail-by-slug' thread_slug=1337 %}"
-                        .replace('1337', thread_slug);
-                  }
-                  window.location.replace(geturl(data.slug));
+                  // redirect to new thread page
+                  window.location.replace(get_thread_page(data.slug));
                });
-            });
+            })
+         },
+         post: {
+            thread: "{{ thread.id }}",
+            forum: "{{ forum.id }}",
          },
       }
 
-      // mount editor on DOM
-      forum_js.load_editor(props);
+      // mount post editor on DOM
+      forum_js.load_editor(main_editor_props);
    </script>
 {% endblock scripts %}

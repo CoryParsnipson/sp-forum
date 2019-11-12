@@ -1,8 +1,9 @@
 {% extends 'forum/template_page_default.html' %}
+{% load formatting_filters %}
 
 {% block header %}
    <head>
-      <title>SP Forum :: {{ thread.title }}</title>
+      <title>SP Forum :: {{ thread.title|format_plain }}</title>
    </head>
 {% endblock header %}
 
@@ -10,11 +11,11 @@
 {% block breadcrumbs %}
    {% breadcrumb 'Home' 'forum:index' %}
    {% breadcrumb forum.title 'forum:forum-detail-by-slug' forum_slug=forum.slug %}
-   {% breadcrumb thread.title %}
+   {% breadcrumb thread.title|format_plain %}
 {% endblock breadcrumbs %}
 
 {% block content %}
-   <h1>{{ thread.title }}</h1>
+   <h1>{{ thread.title|format_rich }}</h1>
    <h3>OP: {{ thread.author|default:"Anonymous" }}</h3>
 
    <table class="posts_list">
@@ -22,7 +23,7 @@
          {% for post in posts %}
             <tr>
                <th class="posts_list_header">{% if post.author %}{{ post.author.username }}{% else %}Anonymous{% endif %}</th>
-               <td class="posts_list_data">{{ post.content|safe }}</td>
+               <td class="posts_list_data">{{ post.content|format_rich }}</td>
             </tr>
          {% empty %}
             <tr><td class="posts_list_data">There are no posts in this thread...</td></tr>
@@ -43,18 +44,15 @@
 
 {% block scripts %}
    {% load render_bundle from webpack_loader %}
-   {% render_bundle 'base' 'css' %}
-   {% render_bundle 'editor' %}
+   {% render_bundle 'main' %}
 
    <script>
       // set up editor variables
       props = {
-         'post': {
-            'thread': "{{ thread.id }}",
-         },
-         'editor_mountpoint': 'editor-area',
-         'editor_action': "{% url 'api:post-list' %}",
-         'post_submit': function(event, editor, response) {
+         id: 'editor-area',
+         action: "{% url 'api:post-list' %}",
+         onSubmitPost: function(event, editor, response) {
+            // add new post contents to page after request is complete
             response.json().then(function(data) {
                var post_list = document.getElementsByClassName("posts_list")[0];
                var num_rows = post_list.getElementsByTagName("tr").length;
@@ -69,12 +67,19 @@
                post_content.classList.add("posts_list_data");
 
                post_info.innerHTML = data.author ? data.author.username : "Anonymous";
-               post_content.innerHTML = data.content;
+               post_content.innerHTML = "<span class=\"format_rich\">" + data.content + "</span>";
             })
+            .then(forum_js.deserialize_slate_content);
+         },
+         post: {
+            thread: "{{ thread.id }}",
          },
       }
 
       // mount editor on DOM
       forum_js.load_editor(props);
+
+      // deserialize any tagged slate content
+      forum_js.deserialize_slate_content();
    </script>
 {% endblock scripts %}

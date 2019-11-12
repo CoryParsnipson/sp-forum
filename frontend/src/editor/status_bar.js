@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import * as utils from './utils.js'
-import { EditorType } from './editor.js'
+import * as utils from '../utils.js'
 
 export class StatusBar extends React.Component {
    constructor(props) {
@@ -12,17 +11,18 @@ export class StatusBar extends React.Component {
    render() {
       return (
          <form
-            name={this.props.editor_id + "_form"}
-            className="editor-status"
+            name={this.props.editor_id}
+            className={ "editor-status" + (!this.props.visible ? " hidden" : "") }
             method="post"
-            action={this.props.action}
-            onSubmit={this.props.on_submit}
+            action={this.props.editor_action}
+            onSubmit={this.props.onSubmit}
          >
             <input type="hidden" name="csrfmiddlewaretoken" value={utils.getCookie('csrftoken')} />
             <input type="hidden" name="thread" value={this.props.post.thread} />
-            {this.props.editor_type == EditorType.FULL ? <input type="hidden" name="title" value="" /> : null}
+            <input type="hidden" name="title" value="" />
             <input type="hidden" name="content" value="" />
 
+            <label>[Status bar contents]</label>
             <button type="submit" value="POST">POST</button>
          </form>
       );

@@ -36,19 +36,26 @@ div.editor-cursor {
    margin-bottom: -1.25em;
 }
 
-.editor-hidden {
-   visibility: hidden;
-}
-
 .editor-status {
+   background-color: $accent-secondary2;
+   border-radius: $border-radius;
+   display: flex;
+   align-items: center;
+   margin-top: 1em;
+   overflow: auto;
+
+   label {
+      color: $accent-dark1;
+      font-size: 11pt;
+      margin: 0 auto;
+   }
+
    button[type=submit] {
       background-color: $accent-tertiary1;
       font-family: 'Source Sans Pro', sans-serif;
       font-size: 16pt;
       border: 0;
-      border-radius: $border-radius;
-      margin: 1em 0;
-      margin-bottom: 0;
+      border-radius: 0 $border-radius $border-radius 0;
       padding: 0.25em 2em;
    }
 

@@ -9,8 +9,8 @@ from django.urls import reverse
 from forum.models import Forum, Post, Thread
 
 EDITOR_AREA = "editor-area"
-NEW_THREAD_EDITOR_AREA = "new-thread-editor"
-NEW_THREAD_EDITOR_AREA_TITLEBAR = "new-thread-editor-title-mountpoint"
+NEW_THREAD_EDITOR_AREA = "post-editor"
+NEW_THREAD_EDITOR_AREA_TITLEBAR = "title-editor"
 POST_LIST_CLASS = "posts_list"
 
 class IntegThreadTests(StaticLiveServerTestCase):
@@ -51,14 +51,14 @@ class IntegThreadTests(StaticLiveServerTestCase):
 
         # type into title
         titlebar_element = self.selenium.find_element_by_css_selector(
-            "#%s p.content" % (NEW_THREAD_EDITOR_AREA_TITLEBAR)
+            "#%s div" % (NEW_THREAD_EDITOR_AREA_TITLEBAR)
         );
         titlebar_element.click();
         ActionChains(self.selenium).send_keys(TEST_TITLE_STRING).perform()
 
         # type into editor
         editor_element = self.selenium.find_element_by_css_selector(
-            "#%s p.content" % (NEW_THREAD_EDITOR_AREA)
+            "#%s div" % (NEW_THREAD_EDITOR_AREA)
         )
         editor_element.click()
         ActionChains(self.selenium).send_keys(TEST_STRING).perform()
@@ -89,7 +89,7 @@ class IntegThreadTests(StaticLiveServerTestCase):
             "table.%s tr:nth-last-child(2)" % (POST_LIST_CLASS)
         )
         new_post_content = new_post.find_element_by_css_selector(
-            "td.posts_list_data p.content"
+            "td.posts_list_data p"
         )
         self.assertEqual(TEST_STRING, new_post_content.text)
 

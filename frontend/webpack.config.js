@@ -7,8 +7,7 @@ module.exports = (env, argv) => ({
    mode: "development",
    context: __dirname,
    entry: {
-      base: './src/index_base.js',
-      editor: './src/index_editor.js',
+      main: './src/index.js',
    },
    output: {
       path: path.resolve('../backend/webpack_bundles'),

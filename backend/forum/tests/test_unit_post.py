@@ -80,7 +80,8 @@ class TestThreads(TestCase):
 
         post_data = urlencode({
             'title': "Unit Test Thread (API latest)",
-            'forum': str(self.forum.id)
+            'forum': str(self.forum.id),
+            'content': "This is the OP body.",
         })
 
         response = self.client.post(
@@ -101,7 +102,8 @@ class TestThreads(TestCase):
 
         post_data = urlencode({
             'title': "Unit Test Thread (API latest)",
-            'forum': str(self.forum.id)
+            'forum': str(self.forum.id),
+            'content': "This is the OP body.",
         })
 
         response = self.client.post(

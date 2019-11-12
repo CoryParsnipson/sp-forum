@@ -27,6 +27,10 @@ class IntegPostTests(StaticLiveServerTestCase):
         cls.forum = Forum.objects.create(title="Forum0", description="Automatically generated forum.")
         cls.thread = Thread.objects.create(title="Thread0", author=None, forum=cls.forum)
 
+        # Make dummy thread OP to keep thread invariant (every thread must have at least 1 post)
+        p = Post(content="This is the OP.", thread = cls.thread);
+        p.save();
+
     @classmethod
     def tearDownClass(cls):
         cls.selenium.quit()
@@ -49,7 +53,7 @@ class IntegPostTests(StaticLiveServerTestCase):
 
         # type into editor
         editor_element = self.selenium.find_element_by_css_selector(
-            "#%s p.content" % (EDITOR_AREA)
+            "#%s div" % (EDITOR_AREA)
         )
         editor_element.click()
         ActionChains(self.selenium).send_keys(TEST_STRING).perform()
@@ -67,7 +71,7 @@ class IntegPostTests(StaticLiveServerTestCase):
             "table.%s tr:nth-last-child(2)" % (POST_LIST_CLASS)
         )
         new_post_content = new_post.find_element_by_css_selector(
-            "td.posts_list_data p.content"
+            "td.posts_list_data p"
         )
 
         # detect if new post was successfully added

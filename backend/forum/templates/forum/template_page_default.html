@@ -1,5 +1,4 @@
 {% load static %}
-{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html lang="en">
    {% block header %}
@@ -57,7 +56,11 @@
 
       {% block scripts %}
          {% load render_bundle from webpack_loader %}
-         {% render_bundle 'base' 'css' %}
+         {% render_bundle 'main' %}
+
+         <script>
+            forum_js.deserialize_slate_content();
+         </script>
       {% endblock %}
    </body>
 </html>
