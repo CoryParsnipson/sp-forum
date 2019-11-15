@@ -6,7 +6,7 @@ import Html from 'slate-html-serializer'
 import { Editor as SlateEditor } from 'slate-react'
 
 import * as utils from '../utils.js'
-import { rules} from './slate-html-serializer-rules.js'
+import { rules } from './slate-html-serializer-rules.js'
 import { StatusBar } from './status_bar.js'
 
 export class Editor extends React.Component {
@@ -17,9 +17,7 @@ export class Editor extends React.Component {
       onChange: function ({ value }) {
          this.setState({ value: value })
       },
-      onInput: function (event, editor, next) {},
       onKeyDown: function(event, editor, next) {},
-      onKeyUp: function (event, editor, next) {},
       onSubmitPre: function(event, editor) {},
       onSubmit: function(event, editor, response) {
          // data to send through POST
@@ -64,7 +62,6 @@ export class Editor extends React.Component {
 
       this.state = {
          value: this.props.value,
-         android_prev_text: "",
       }
 
       this.slate = React.createRef();
@@ -143,11 +140,7 @@ export class Editor extends React.Component {
             <SlateEditor
                ref={ editor => this.slate = editor }
                onChange={ this.props.onChange.bind(this) }
-               onInput={ this.props.onInput.bind(this) }
                onKeyDown={ this.props.onKeyDown }
-               onKeyUp={ this.props.onKeyUp }
-               //onCompositionStart={(event, editor, next) => { console.log("comp start"); }}
-               //onCompositionEnd={(event, editor, next) => { console.log("comp end"); }}
                placeholder={ this.props.placeholder }
                readOnly={ this.props.read_only }
                value={ this.state.value }
