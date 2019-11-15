@@ -45,6 +45,11 @@
          id: 'title-editor',
          placeholder: "Enter a thread title",
          onKeyDown: function(event, editor, next) {
+            // detect Android OS
+            if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+               return;
+            }
+
             // prevent users (desktop and Android Chrome) from pressing enter in this editor
             if (event.keyCode === 13) {
                event.preventDefault();
@@ -81,6 +86,17 @@
             };
 
             return post_data;
+         },
+         onSubmitPre: function(event, editor, response) {
+            // detect Android OS
+            if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+               // if we're on Android, collect the content editable and deserialize it
+               // to a slate value as a hack
+               const html = new forum_js.Html({ rules: forum_js.rules });
+               const value = html.deserialize(document.getElementById(title_editor.props.id).firstChild.innerHTML);
+
+               title_editor.state.value = value;
+            }
          },
          onSubmitPost: function(event, editor, response) {
             function get_thread_details(thread_id) {

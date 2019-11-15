@@ -2,9 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { Range, Value } from 'slate'
+import Html from 'slate-html-serializer'
 import { Editor as SlateEditor } from 'slate-react'
 
 import * as utils from '../utils.js'
+import { rules} from './slate-html-serializer-rules.js'
 import { StatusBar } from './status_bar.js'
 
 export class Editor extends React.Component {
@@ -15,7 +17,9 @@ export class Editor extends React.Component {
       onChange: function ({ value }) {
          this.setState({ value: value })
       },
+      onInput: function (event, editor, next) {},
       onKeyDown: function(event, editor, next) {},
+      onKeyUp: function (event, editor, next) {},
       onSubmitPre: function(event, editor) {},
       onSubmit: function(event, editor, response) {
          // data to send through POST
@@ -60,6 +64,7 @@ export class Editor extends React.Component {
 
       this.state = {
          value: this.props.value,
+         android_prev_text: "",
       }
 
       this.slate = React.createRef();
@@ -88,6 +93,16 @@ export class Editor extends React.Component {
          resolve => setTimeout(() => resolve(response), 1)
       ))
       .then(function(response) {
+         // detect Android OS
+         if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+            // if we're on Android, collect the content editable and deserialize it
+            // to a slate value as a hack
+            const html = new Html({ rules });
+            const value = html.deserialize(document.getElementById(editor.props.id).firstChild.innerHTML);
+
+            editor.state.value = value;
+         }
+
          const post_data = editor.props.onSubmit(event, editor, response);
          const post_body = Object.keys(post_data)
             .map(key => key + '=' + encodeURIComponent(post_data[key])).join('&');
@@ -109,6 +124,11 @@ export class Editor extends React.Component {
          return editor.props.onSubmitPost(event, editor, response);
       })
       .then(function(response) {
+         // detect Android OS
+         if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+            document.getElementById(editor.props.id).firstChild.innerHTML = "";
+         }
+
          // after successful post, clear editor contents
          editor.slate
             .focus()
@@ -123,7 +143,11 @@ export class Editor extends React.Component {
             <SlateEditor
                ref={ editor => this.slate = editor }
                onChange={ this.props.onChange.bind(this) }
+               onInput={ this.props.onInput.bind(this) }
                onKeyDown={ this.props.onKeyDown }
+               onKeyUp={ this.props.onKeyUp }
+               //onCompositionStart={(event, editor, next) => { console.log("comp start"); }}
+               //onCompositionEnd={(event, editor, next) => { console.log("comp end"); }}
                placeholder={ this.props.placeholder }
                readOnly={ this.props.read_only }
                value={ this.state.value }

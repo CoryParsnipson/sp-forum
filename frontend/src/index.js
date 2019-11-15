@@ -18,6 +18,7 @@ import { Editor } from './editor/editor.js';
 // External library functions
 // ----------------------------------------------------------------------------
 export { utils };
+export { Html, rules };
 
 export function load_editor(props) {
    return ReactDOM.render(<Editor {...props} />, document.getElementById(props.id));
