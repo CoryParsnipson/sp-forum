@@ -17,7 +17,6 @@ export class Editor extends React.Component {
       onChange: function ({ value }) {
          this.setState({ value: value })
       },
-      onKeyDown: function(event, editor, next) {},
       onSubmitPre: function(event, editor) {},
       onSubmit: function(event, editor, response) {
          // data to send through POST
@@ -140,7 +139,6 @@ export class Editor extends React.Component {
             <SlateEditor
                ref={ editor => this.slate = editor }
                onChange={ this.props.onChange.bind(this) }
-               onKeyDown={ this.props.onKeyDown }
                placeholder={ this.props.placeholder }
                readOnly={ this.props.read_only }
                value={ this.state.value }
