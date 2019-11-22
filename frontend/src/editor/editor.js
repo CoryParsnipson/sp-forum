@@ -120,6 +120,10 @@ export class Editor extends React.Component {
          return editor.props.onSubmitPost(event, editor, response);
       })
       .then(function(response) {
+         if (response === false) {
+            return;
+         }
+
          // detect Android OS
          if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
             document.getElementById(editor.props.id).firstChild.innerHTML = "";

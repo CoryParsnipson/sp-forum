@@ -1,3 +1,7 @@
+import json
+import string
+
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
@@ -7,6 +11,27 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
 from .models import Forum, Post, Thread, User
 from .serializers import ForumSerializer, PostSerializer, ThreadSerializer, UserSerializer
+
+
+###############################################################################
+# helpers
+###############################################################################
+def is_slate_value_empty(data):
+    """
+    Given a slate value serialized to JSON, return true if it's empty
+    """
+    try:
+       value = json.loads(data)
+    except json.JSONDecodeError:
+        # if it's not JSON, it's plaintext
+        return data == "" or data.isspace()
+
+    doc_text = ""
+
+    for block in value['document']['nodes']:
+        doc_text += "".join([text['text'] for text in block['nodes']])
+
+    return all(c.isspace() or c == "" or not (c in string.printable) for c in doc_text)
 
 
 ###############################################################################
@@ -162,7 +187,33 @@ class PostViewSet(viewsets.ModelViewSet):
         need to update the `last_updated` field of the Thread object
         this belongs to.
         """
+        if is_slate_value_empty(request.data['content']):
+            return JsonResponse({'error': 'Cannot create an empty post.'})
+
         response = super().create(request, *args, **kwargs)
+        post = Post.objects.get(pk = response.data["id"])
+        post.thread.last_updated = timezone.localtime()
+        post.thread.save()
+        return response
+
+    def update(self, request, *args, **kwargs):
+        """
+        Make sure that the new post is not empty
+        """
+        if is_slate_value_empty(request.data['content']):
+            return JsonResponse({'error': 'Cannot create an empty post.'})
+
+        response = super().update(request, *args, **kwargs)
+        post = Post.objects.get(pk = response.data["id"])
+        post.thread.last_updated = timezone.localtime()
+        post.thread.save()
+        return response
+
+    def partial_update(self, request, *args, **kwargs):
+        if is_slate_value_empty(request.data['content']):
+            return JsonResponse({'error': 'Cannot create an empty post.'})
+
+        response = super().partial_update(request, *args, **kwargs)
         post = Post.objects.get(pk = response.data["id"])
         post.thread.last_updated = timezone.localtime()
         post.thread.save()
@@ -197,6 +248,12 @@ class ThreadViewSet(viewsets.ModelViewSet):
         Make it so that you can't create a thread without supply the contents
         of the first post as well.
         """
+        if is_slate_value_empty(request.data['content']):
+            return JsonResponse({'error': 'Cannot create a Thread with an empty OP.'})
+
+        if is_slate_value_empty(request.data['title']):
+            return JsonResponse({'error': 'Cannot create a Thread with an no title.'})
+
         response = super().create(request, *args, **kwargs)
 
         # get this thread object

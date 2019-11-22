@@ -54,6 +54,11 @@
          onSubmitPost: function(event, editor, response) {
             // add new post contents to page after request is complete
             response.json().then(function(data) {
+               if (data.error) {
+                  alert(data.error);
+                  return false;
+               }
+
                var post_list = document.getElementsByClassName("posts_list")[0];
                var num_rows = post_list.getElementsByTagName("tr").length;
                var new_post = post_list.insertRow(num_rows - 1);
