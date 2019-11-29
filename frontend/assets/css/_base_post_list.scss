@@ -18,6 +18,10 @@
       border-bottom: 1px solid $accent_secondary2;
       padding: 15px 25px;
    }
+
+   p {
+      min-height: 1em;
+   }
 }
 
 .posts_list tr:last-of-type .posts_list_header,

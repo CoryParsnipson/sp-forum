@@ -74,7 +74,11 @@ export function deserialize_slate_content() {
             formatted.innerText = "[ Empty Post ]";
          }
 
-         el.parentNode.appendChild(formatted.childNodes[0]);
+         let num_children = formatted.childNodes.length;
+         while (num_children > 0) {
+            el.parentNode.appendChild(formatted.childNodes[0]);
+            --num_children;
+         }
          el.parentNode.removeChild(el);
       }
    }
